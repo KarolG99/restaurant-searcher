@@ -15,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={satoshi.className}>{children}</body>
+      <body
+        className={`${satoshi.className} flex content-center items-center m-auto flex-col`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
