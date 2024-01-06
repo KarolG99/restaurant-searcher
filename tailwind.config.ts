@@ -7,9 +7,6 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    colors: {
-      background: "#F5F5DC",
-    },
     fontSize: {
       s: "14px",
       m: "16px",
@@ -17,6 +14,9 @@ const config: Config = {
       xl: "24px",
     },
     extend: {
+      colors: {
+        background: "#F5F5DC",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
