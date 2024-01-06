@@ -1,17 +1,28 @@
 import { getDictionary } from "../dictionaries/getDictionary";
+import supabase from "../services/supabase";
 import { ParamsType } from "../types";
-import Logo from "../ui/Logo";
+import CuisineFilters from "../ui/CuisineFilters";
+import LocationFilters from "../ui/LocationFilters";
 
 export default async function Home({ params: { locale } }: ParamsType) {
-  const dictionary = await getDictionary(locale);
+  const dictionary = getDictionary(locale);
+
+  const { data: locations } = await supabase.from("locations").select("*");
+
+  const { data: cuisines } = await supabase.from("cuisines").select("*");
 
   return (
     <>
-      <header>
-        <Logo text={dictionary.common.logo} />
-      </header>
-      
-      <main className="flex min-h-screen flex-col items-center justify-between p-24"></main>
+      <h1 className=" font-black text-xl text-center pb-[30px]">
+        {dictionary.pages.home.title.text1}
+        <br />
+        {dictionary.pages.home.title.text2}
+      </h1>
+
+      <article className="flex flex-col gap-[15px]">
+        <LocationFilters locations={locations} />
+        <CuisineFilters cuisines={cuisines} />
+      </article>
     </>
   );
 }

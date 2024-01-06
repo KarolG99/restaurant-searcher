@@ -19,3 +19,27 @@
 body {
   @apply bg-background;
 }
+
+input[type="radio"].custom:checked + label {
+  @apply bg-black text-background;
+}
+
+.filtersWrapper {
+  overflow: auto;
+  padding-bottom: 2px;
+
+  &::-webkit-scrollbar {
+    height: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #e6e6ca;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 5px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    cursor: pointer;
+  }
+}
