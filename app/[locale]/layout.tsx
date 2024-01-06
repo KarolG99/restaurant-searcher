@@ -16,11 +16,11 @@ export default async function HomeLayout({
 
   return (
     <>
-      <header>
+      <header className=" pt-[10px] px-[15px]">
         <Logo text={dictionary.common.logoCommon.text} />
       </header>
 
-      <main className="flex min-h-screen flex-col items-center justify-between p-[20px] w-full">
+      <main className="min-h-screen px-[15px] py-[20px] w-full max-w-[1280px]">
         {children}
       </main>
     </>
