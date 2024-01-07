@@ -86,7 +86,7 @@ const RestaurantCard = ({
 
         {restaurantDiets.length > 0 ? (
           <p className="text-s line-clamp-1">
-            <b>Diets:</b> {restaurantCuisines.join(" ᐧ ")}
+            <b>Diets:</b> {restaurantDiets.join(" ᐧ ")}
           </p>
         ) : null}
       </div>
