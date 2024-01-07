@@ -1,21 +1,49 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { Price } from "@/database.types";
 
 import Filter from "./Filter";
+import { SearchParams } from "../types";
 
 type PriceFiltersProps = {
   prices: Price[] | null;
+  setStateSearchParams: (value: string) => void;
 };
 
-const PriceFilters = ({ prices }: PriceFiltersProps) => {
+const PriceFilters = ({ prices, setStateSearchParams }: PriceFiltersProps) => {
   const [isAnyChecked, setAnyChecked] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  const selectedIdsCount = selectedIds.length > 0 ? selectedIds.length : null;
+
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+
+  const handleCheckboxChange = (id: string) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter((selectedId) => selectedId !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+    setAnyChecked(false);
+  };
+
+  useEffect(() => {
+    if (selectedIds.length > 0) {
+      setStateSearchParams(selectedIds.toString());
+    } else {
+      setStateSearchParams("");
+    }
+  }, [selectedIds]);
 
   return prices && prices.length > 0 ? (
     <section>
-      <p className="font-semibold ml-[2px] mb-[5px]">Average price</p>
+      <p className="font-semibold ml-[2px] mb-[5px]">
+        Average price {selectedIdsCount && `(${selectedIdsCount})`}
+      </p>
 
       <p className=" text-s font-light ml-[3px] mt-[-3px] mb-[6px]">
         {prices.map((price, index) => {
@@ -36,7 +64,10 @@ const PriceFilters = ({ prices }: PriceFiltersProps) => {
           id="0-any-price"
           name="Any"
           inputName="prices"
-          onChange={() => setAnyChecked((prev) => !prev)}
+          onChange={() => {
+            setAnyChecked((prev) => !prev);
+            setSelectedIds([]);
+          }}
           checked={isAnyChecked}
         />
         {prices.map((price, index) => (
@@ -47,7 +78,9 @@ const PriceFilters = ({ prices }: PriceFiltersProps) => {
             name={price.symbol || ""}
             inputName="prices"
             checked={isAnyChecked ? false : undefined}
-            onChange={() => setAnyChecked(false)}
+            onChange={() => {
+              handleCheckboxChange(price.id.toString());
+            }}
           />
         ))}
       </div>
