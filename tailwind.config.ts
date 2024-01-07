@@ -8,6 +8,7 @@ const config: Config = {
   ],
   theme: {
     fontSize: {
+      xs: "12px",
       s: "14px",
       m: "16px",
       l: "20px",

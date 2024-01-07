@@ -1,12 +1,11 @@
 import { getDictionary } from "../dictionaries/getDictionary";
-import supabase from "../services/supabase";
-import { ParamsType } from "../types";
-import CuisineFilters from "../ui/CuisineFilters";
-import DietFilters from "../ui/DietFilters";
+
 import HomeFilters from "../ui/HomeFilters";
-import LocationFilters from "../ui/LocationFilters";
-import MealFilters from "../ui/MealFilters";
-import PriceFilters from "../ui/PriceFilters";
+
+import supabase from "../services/supabase";
+
+import { ParamsType } from "../types";
+import RestaurantsCarousel from "../ui/RestaurantsCarousel";
 
 export default async function Home({ params: { locale } }: ParamsType) {
   const dictionary = getDictionary(locale);
@@ -30,6 +29,17 @@ export default async function Home({ params: { locale } }: ParamsType) {
   const prices = pricesResponse.data || [];
   const meals = mealsResponse.data || [];
 
+  const { data: restaurantsLocationId1 } = await supabase
+    .from("restaurants")
+    .select("*")
+    .eq("locationId", 1)
+    .range(0, 5);
+  const { data: restaurantsLocationId2 } = await supabase
+    .from("restaurants")
+    .select("*")
+    .eq("locationId", 2)
+    .range(0, 5);
+
   return (
     <>
       <h1 className=" font-black text-xl text-center pb-[30px]">
@@ -44,6 +54,22 @@ export default async function Home({ params: { locale } }: ParamsType) {
         diets={diets}
         prices={prices}
         meals={meals}
+      />
+
+      <RestaurantsCarousel
+        restaurants={restaurantsLocationId1}
+        location={locations.filter((location) => location.id === 1)?.[0]}
+        prices={prices}
+        cuisines={cuisines}
+        diets={diets}
+      />
+
+      <RestaurantsCarousel
+        restaurants={restaurantsLocationId2}
+        location={locations.filter((location) => location.id === 2)?.[0]}
+        prices={prices}
+        cuisines={cuisines}
+        diets={diets}
       />
     </>
   );

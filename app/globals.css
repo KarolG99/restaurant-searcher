@@ -44,3 +44,27 @@ input[type="checkbox"].custom:checked + label {
     cursor: pointer;
   }
 }
+
+/* SPLIDE STYLES */
+.splide {
+  .splide__arrow--prev {
+    left: -10px;
+    background: #fff;
+  }
+  .splide__arrow--next {
+    right: -10px;
+    background: #fff;
+  }
+
+  .splide__pagination {
+    bottom: -10px;
+  }
+  .splide__pagination__page {
+    width: 10px;
+    height: 2px;
+    border-radius: 2px;
+  }
+  .splide__pagination__page.is-active {
+    background: black;
+  }
+}

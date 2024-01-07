@@ -33,7 +33,7 @@ const HomeFilters = ({
   });
 
   return (
-    <article className="flex flex-col gap-[15px]">
+    <article className="flex flex-col gap-[15px] pb-[20px]">
       <LocationFilters
         locations={locations}
         setStateSearchParams={(value) =>
