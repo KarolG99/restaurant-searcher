@@ -318,3 +318,31 @@ export type Meal = {
   id: number;
   name: string | null;
 };
+
+export type RestaurantReviews = {
+  total: number;
+  average: number;
+  googleReviewsUrl: string;
+  tripadvisorReviewsUrl: string;
+};
+export type Restaurant = {
+  address: string | null;
+  averagePrice: number | null;
+  cuisine: number[] | null;
+  description: string | null;
+  diet: number[] | null;
+  id: number;
+  images: string[] | null;
+  location: unknown | null;
+  locationId: number | null;
+  mainImage: string | null;
+  meal: number[] | null;
+  menu: string | null;
+  name: string | null;
+  openAt: string[] | null;
+  reviews:
+     RestaurantReviews
+    | Json
+    | null;
+  websiteUrl: string | null;
+};
