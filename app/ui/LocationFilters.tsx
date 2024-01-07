@@ -14,9 +14,15 @@ const LocationFilters = ({ locations }: LocationFiltersProps) => {
       <p className=" font-semibold ml-[2px] mb-[5px]">Location</p>
 
       <div className="flex gap-[13px] items-center filtersWrapper">
-        <Filter id="0-any-location" name="Any" inputName="locations" />
+        <Filter
+          type="radio"
+          id="0-any-location"
+          name="Any"
+          inputName="locations"
+        />
         {locations.map((location, index) => (
           <Filter
+            type="radio"
             key={`${location.id}_${index}`}
             id={`${location.id}-${location.name}`}
             name={location.name || ""}

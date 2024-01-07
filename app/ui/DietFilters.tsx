@@ -2,37 +2,37 @@
 
 import React, { useState } from "react";
 
-import { Cuisine } from "@/database.types";
+import { Diet } from "@/database.types";
 
 import Filter from "./Filter";
 
-type CuisineFiltersProps = {
-  cuisines: Cuisine[] | null;
+type DietFiltersProps = {
+  diets: Diet[] | null;
 };
 
-const CuisineFilters = ({ cuisines }: CuisineFiltersProps) => {
+const DietFilters = ({ diets }: DietFiltersProps) => {
   const [isAnyChecked, setAnyChecked] = useState(false);
 
-  return cuisines && cuisines.length > 0 ? (
+  return diets && diets.length > 0 ? (
     <section>
-      <p className="font-semibold ml-[2px] mb-[5px]">Cuisine</p>
+      <p className="font-semibold ml-[2px] mb-[5px]">Diet</p>
 
       <div className="flex gap-[13px] items-center filtersWrapper">
         <Filter
           type="checkbox"
-          id="0-any-cuisine"
+          id="0-any-diet"
           name="Any"
-          inputName="cuisines"
+          inputName="diets"
           onChange={() => setAnyChecked((prev) => !prev)}
           checked={isAnyChecked}
         />
-        {cuisines.map((cuisine, index) => (
+        {diets.map((diet, index) => (
           <Filter
             type="checkbox"
-            key={`${cuisine.id}_${index}`}
-            id={`${cuisine.id}-${cuisine.name}`}
-            name={cuisine.name || ""}
-            inputName="cuisines"
+            key={`${diet.id}_${index}`}
+            id={`${diet.id}-${diet.name}`}
+            name={diet.name || ""}
+            inputName="diets"
             checked={isAnyChecked ? false : undefined}
             onChange={() => setAnyChecked(false)}
           />
@@ -42,4 +42,4 @@ const CuisineFilters = ({ cuisines }: CuisineFiltersProps) => {
   ) : null;
 };
 
-export default CuisineFilters;
+export default DietFilters;

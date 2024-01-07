@@ -20,7 +20,8 @@ body {
   @apply bg-background;
 }
 
-input[type="radio"].custom:checked + label {
+input[type="radio"].custom:checked + label,
+input[type="checkbox"].custom:checked + label {
   @apply bg-black text-background;
 }
 
