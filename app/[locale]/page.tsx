@@ -37,7 +37,7 @@ export default async function Home({ params: { locale } }: ParamsType) {
   const { data: restaurantsLocationId2 } = await supabase
     .from("restaurants")
     .select("*")
-    .eq("locationId", 1)
+    .eq("locationId", 2)
     .range(0, 5);
 
   return (

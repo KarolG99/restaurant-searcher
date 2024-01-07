@@ -38,7 +38,7 @@ const RestaurantsCarousel = ({
   };
 
   return (
-    <article className=" mt-[70px]">
+    <article className=" mt-[60px] pb-[15px]">
       <h2 className=" text-l font-bold">Restaurants in {location?.name}</h2>
 
       <Splide
