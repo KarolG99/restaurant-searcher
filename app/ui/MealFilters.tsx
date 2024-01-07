@@ -3,20 +3,17 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-import { Cuisine } from "@/database.types";
+import { Meal } from "@/database.types";
 
 import Filter from "./Filter";
 import { SearchParams } from "../types";
 
-type CuisineFiltersProps = {
-  cuisines: Cuisine[] | null;
+type MealFiltersProps = {
+  meals: Meal[] | null;
   setStateSearchParams: (value: string) => void;
 };
 
-const CuisineFilters = ({
-  cuisines,
-  setStateSearchParams,
-}: CuisineFiltersProps) => {
+const MealFilters = ({ meals, setStateSearchParams }: MealFiltersProps) => {
   const [isAnyChecked, setAnyChecked] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
@@ -42,34 +39,34 @@ const CuisineFilters = ({
     }
   }, [selectedIds]);
 
-  return cuisines && cuisines.length > 0 ? (
+  return meals && meals.length > 0 ? (
     <section>
       <p className="font-semibold ml-[2px] mb-[5px]">
-        Cuisine {selectedIdsCount && `(${selectedIdsCount})`}
+        Meal {selectedIdsCount && `(${selectedIdsCount})`}
       </p>
 
       <div className="flex gap-[13px] items-center filtersWrapper">
         <Filter
           type="checkbox"
-          id="0-any-cuisine"
+          id="0-any-meal"
           name="Any"
-          inputName="cuisines"
+          inputName="meals"
           onChange={() => {
             setAnyChecked((prev) => !prev);
             setSelectedIds([]);
           }}
           checked={isAnyChecked}
         />
-        {cuisines.map((cuisine, index) => (
+        {meals.map((meal, index) => (
           <Filter
             type="checkbox"
-            key={`${cuisine.id}_${index}`}
-            id={`${cuisine.id}-${cuisine.name}`}
-            name={cuisine.name || ""}
-            inputName="cuisines"
+            key={`${meal.id}_${index}`}
+            id={`${meal.id}-${meal.name}`}
+            name={meal.name || ""}
+            inputName="meal"
             checked={isAnyChecked ? false : undefined}
             onChange={() => {
-              handleCheckboxChange(cuisine.id.toString());
+              handleCheckboxChange(meal.id.toString());
             }}
           />
         ))}
@@ -78,4 +75,4 @@ const CuisineFilters = ({
   ) : null;
 };
 
-export default CuisineFilters;
+export default MealFilters;

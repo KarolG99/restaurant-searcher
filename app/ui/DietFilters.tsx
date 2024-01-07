@@ -3,20 +3,17 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-import { Cuisine } from "@/database.types";
+import { Diet } from "@/database.types";
 
 import Filter from "./Filter";
 import { SearchParams } from "../types";
 
-type CuisineFiltersProps = {
-  cuisines: Cuisine[] | null;
+type DietFiltersProps = {
+  diets: Diet[] | null;
   setStateSearchParams: (value: string) => void;
 };
 
-const CuisineFilters = ({
-  cuisines,
-  setStateSearchParams,
-}: CuisineFiltersProps) => {
+const DietFilters = ({ diets, setStateSearchParams }: DietFiltersProps) => {
   const [isAnyChecked, setAnyChecked] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
@@ -42,34 +39,34 @@ const CuisineFilters = ({
     }
   }, [selectedIds]);
 
-  return cuisines && cuisines.length > 0 ? (
+  return diets && diets.length > 0 ? (
     <section>
       <p className="font-semibold ml-[2px] mb-[5px]">
-        Cuisine {selectedIdsCount && `(${selectedIdsCount})`}
+        Diet {selectedIdsCount && `(${selectedIdsCount})`}
       </p>
 
       <div className="flex gap-[13px] items-center filtersWrapper">
         <Filter
           type="checkbox"
-          id="0-any-cuisine"
+          id="0-any-diet"
           name="Any"
-          inputName="cuisines"
+          inputName="diets"
           onChange={() => {
             setAnyChecked((prev) => !prev);
             setSelectedIds([]);
           }}
           checked={isAnyChecked}
         />
-        {cuisines.map((cuisine, index) => (
+        {diets.map((diet, index) => (
           <Filter
             type="checkbox"
-            key={`${cuisine.id}_${index}`}
-            id={`${cuisine.id}-${cuisine.name}`}
-            name={cuisine.name || ""}
-            inputName="cuisines"
+            key={`${diet.id}_${index}`}
+            id={`${diet.id}-${diet.name}`}
+            name={diet.name || ""}
+            inputName="diets"
             checked={isAnyChecked ? false : undefined}
             onChange={() => {
-              handleCheckboxChange(cuisine.id.toString());
+              handleCheckboxChange(diet.id.toString());
             }}
           />
         ))}
@@ -78,4 +75,4 @@ const CuisineFilters = ({
   ) : null;
 };
 
-export default CuisineFilters;
+export default DietFilters;

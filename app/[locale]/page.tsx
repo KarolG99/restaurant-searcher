@@ -2,14 +2,33 @@ import { getDictionary } from "../dictionaries/getDictionary";
 import supabase from "../services/supabase";
 import { ParamsType } from "../types";
 import CuisineFilters from "../ui/CuisineFilters";
+import DietFilters from "../ui/DietFilters";
+import HomeFilters from "../ui/HomeFilters";
 import LocationFilters from "../ui/LocationFilters";
+import MealFilters from "../ui/MealFilters";
+import PriceFilters from "../ui/PriceFilters";
 
 export default async function Home({ params: { locale } }: ParamsType) {
   const dictionary = getDictionary(locale);
 
-  const { data: locations } = await supabase.from("locations").select("*");
-
-  const { data: cuisines } = await supabase.from("cuisines").select("*");
+  const [
+    locationsResponse,
+    cuisinesResponse,
+    dietsResponse,
+    pricesResponse,
+    mealsResponse,
+  ] = await Promise.all([
+    supabase.from("locations").select("*"),
+    supabase.from("cuisines").select("*"),
+    supabase.from("diets").select("*"),
+    supabase.from("prices").select("*"),
+    supabase.from("meals").select("*"),
+  ]);
+  const locations = locationsResponse.data || [];
+  const cuisines = cuisinesResponse.data || [];
+  const diets = dietsResponse.data || [];
+  const prices = pricesResponse.data || [];
+  const meals = mealsResponse.data || [];
 
   return (
     <>
@@ -19,10 +38,13 @@ export default async function Home({ params: { locale } }: ParamsType) {
         {dictionary.pages.home.title.text2}
       </h1>
 
-      <article className="flex flex-col gap-[15px]">
-        <LocationFilters locations={locations} />
-        <CuisineFilters cuisines={cuisines} />
-      </article>
+      <HomeFilters
+        locations={locations}
+        cuisines={cuisines}
+        diets={diets}
+        prices={prices}
+        meals={meals}
+      />
     </>
   );
 }

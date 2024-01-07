@@ -302,3 +302,19 @@ export type Cuisine = {
   id: number;
   name: string | null;
 };
+
+export type Diet = {
+  id: number;
+  name: string | null;
+};
+
+export type Price = {
+  id: number;
+  symbol: string | null;
+  value: string | null;
+};
+
+export type Meal = {
+  id: number;
+  name: string | null;
+};

@@ -8,3 +8,11 @@ export type ParamsType = Readonly<{
     locale: Languages;
   };
 }>;
+
+export enum SearchParams {
+  LOCATION = "location",
+  CUISINE = "cuisine",
+  DIET = "diet",
+  PRICE = "price",
+  MEAL = "meal",
+}

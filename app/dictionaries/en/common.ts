@@ -1,4 +1,4 @@
 export const logoCommon = {
-  text: "Restaurant searcher",
+  text: "BeeestRest",
 };
 export type LogoDictionaryType = typeof logoCommon;
