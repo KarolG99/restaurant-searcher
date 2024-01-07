@@ -7,6 +7,8 @@ import supabase from "../services/supabase";
 import { ParamsType } from "../types";
 import RestaurantsCarousel from "../ui/RestaurantsCarousel";
 
+export const revalidate = 21600;
+
 export default async function Home({ params: { locale } }: ParamsType) {
   const dictionary = getDictionary(locale);
 
