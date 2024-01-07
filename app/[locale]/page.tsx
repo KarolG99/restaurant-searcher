@@ -10,15 +10,24 @@ import PriceFilters from "../ui/PriceFilters";
 export default async function Home({ params: { locale } }: ParamsType) {
   const dictionary = getDictionary(locale);
 
-  const { data: locations } = await supabase.from("locations").select("*");
-
-  const { data: cuisines } = await supabase.from("cuisines").select("*");
-
-  const { data: diets } = await supabase.from("diets").select("*");
-
-  const { data: prices } = await supabase.from("prices").select("*");
-
-  const { data: meals } = await supabase.from("meals").select("*");
+  const [
+    locationsResponse,
+    cuisinesResponse,
+    dietsResponse,
+    pricesResponse,
+    mealsResponse,
+  ] = await Promise.all([
+    supabase.from("locations").select("*"),
+    supabase.from("cuisines").select("*"),
+    supabase.from("diets").select("*"),
+    supabase.from("prices").select("*"),
+    supabase.from("meals").select("*"),
+  ]);
+  const locations = locationsResponse.data || [];
+  const cuisines = cuisinesResponse.data || [];
+  const diets = dietsResponse.data || [];
+  const prices = pricesResponse.data || [];
+  const meals = mealsResponse.data || [];
 
   return (
     <>
