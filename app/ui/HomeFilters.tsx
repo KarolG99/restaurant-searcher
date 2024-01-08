@@ -8,6 +8,8 @@ import MealFilters from "./MealFilters";
 import PriceFilters from "./PriceFilters";
 import SubmitButton from "./SubmitButton";
 import { useState } from "react";
+import { SearchParams } from "../types";
+import { useSearchParams } from "next/navigation";
 
 type HomeFiltersProps = {
   locations: Location[];
@@ -24,12 +26,21 @@ const HomeFilters = ({
   prices,
   meals,
 }: HomeFiltersProps) => {
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+
+  const locationParam = params.get(SearchParams.LOCATION) ?? "";
+  const cuisineParam = params.get(SearchParams.CUISINE) ?? "";
+  const dietParam = params.get(SearchParams.DIET) ?? "";
+  const priceParam = params.get(SearchParams.PRICE) ?? "";
+  const mealParam = params.get(SearchParams.MEAL) ?? "";
+
   const [stateSearchParams, setStateSearchParams] = useState({
-    location: "",
-    cuisine: "",
-    diet: "",
-    price: "",
-    meal: "",
+    location: locationParam,
+    cuisine: cuisineParam,
+    diet: dietParam,
+    price: priceParam,
+    meal: mealParam,
   });
 
   return (
@@ -39,30 +50,35 @@ const HomeFilters = ({
         setStateSearchParams={(value) =>
           setStateSearchParams({ ...stateSearchParams, location: value })
         }
+        locationParam={locationParam}
       />
       <CuisineFilters
         cuisines={cuisines}
         setStateSearchParams={(value) =>
           setStateSearchParams({ ...stateSearchParams, cuisine: value })
         }
+        cuisineParam={cuisineParam}
       />
       <DietFilters
         diets={diets}
         setStateSearchParams={(value) =>
           setStateSearchParams({ ...stateSearchParams, diet: value })
         }
+        dietParam={dietParam}
       />
       <PriceFilters
         prices={prices}
         setStateSearchParams={(value) =>
           setStateSearchParams({ ...stateSearchParams, price: value })
         }
+        priceParam={priceParam}
       />
       <MealFilters
         meals={meals}
         setStateSearchParams={(value) =>
           setStateSearchParams({ ...stateSearchParams, meal: value })
         }
+        mealParam={mealParam}
       />
 
       <SubmitButton stateSearchParams={stateSearchParams} />

@@ -1,26 +1,29 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 import { Diet } from "@/database.types";
 
 import Filter from "./Filter";
-import { SearchParams } from "../types";
 
 type DietFiltersProps = {
   diets: Diet[] | null;
   setStateSearchParams: (value: string) => void;
+  dietParam: string;
 };
 
-const DietFilters = ({ diets, setStateSearchParams }: DietFiltersProps) => {
+const DietFilters = ({
+  diets,
+  setStateSearchParams,
+  dietParam: dietParamProps,
+}: DietFiltersProps) => {
   const [isAnyChecked, setAnyChecked] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const selectedIdsCount = selectedIds.length > 0 ? selectedIds.length : null;
 
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
+  const dietParam =
+    dietParamProps.length > 0 ? dietParamProps.split(",").map(Number) : [];
 
   const handleCheckboxChange = (id: string) => {
     if (selectedIds.includes(id)) {
@@ -30,6 +33,12 @@ const DietFilters = ({ diets, setStateSearchParams }: DietFiltersProps) => {
     }
     setAnyChecked(false);
   };
+
+  useEffect(() => {
+    if (dietParam.length > 0 && selectedIds.length === 0) {
+      setSelectedIds(dietParam.map((el) => el.toString()));
+    }
+  }, []);
 
   useEffect(() => {
     if (selectedIds.length > 0) {
@@ -62,12 +71,15 @@ const DietFilters = ({ diets, setStateSearchParams }: DietFiltersProps) => {
             type="checkbox"
             key={`${diet.id}_${index}`}
             id={`${diet.id}-${diet.name}`}
-            name={diet.name || ""}
+            name={diet.name ?? ""}
             inputName="diets"
             checked={isAnyChecked ? false : undefined}
             onChange={() => {
               handleCheckboxChange(diet.id.toString());
             }}
+            defaultChecked={
+              dietParam.length > 0 ? dietParam.includes(diet.id) : false
+            }
           />
         ))}
       </div>

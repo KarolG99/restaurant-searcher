@@ -1,25 +1,22 @@
 "use client";
 
 import React from "react";
-import { useSearchParams } from "next/navigation";
 
 import Filter from "./Filter";
 
 import { Location } from "../../database.types";
-import { SearchParams } from "../types";
 
 type LocationFiltersProps = {
   locations: Location[] | null;
   setStateSearchParams: (value: string) => void;
+  locationParam: string;
 };
 
 const LocationFilters = ({
   locations,
   setStateSearchParams,
+  locationParam,
 }: LocationFiltersProps) => {
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
-
   return locations && locations.length > 0 ? (
     <section>
       <p className=" font-semibold ml-[2px] mb-[5px]">Location</p>
@@ -37,9 +34,12 @@ const LocationFilters = ({
             type="radio"
             key={`${location.id}_${index}`}
             id={`${location.id}-${location.name}`}
-            name={location.name || ""}
+            name={location.name ?? ""}
             inputName="locations"
             onChange={() => setStateSearchParams(location.id.toString())}
+            defaultChecked={
+              locationParam ? Number(locationParam) === location.id : false
+            }
           />
         ))}
       </div>
