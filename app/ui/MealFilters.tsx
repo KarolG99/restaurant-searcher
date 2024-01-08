@@ -1,26 +1,28 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 import { Meal } from "@/database.types";
 
 import Filter from "./Filter";
-import { SearchParams } from "../types";
 
 type MealFiltersProps = {
   meals: Meal[] | null;
   setStateSearchParams: (value: string) => void;
+  mealParam: string;
 };
 
-const MealFilters = ({ meals, setStateSearchParams }: MealFiltersProps) => {
+const MealFilters = ({
+  meals,
+  setStateSearchParams,
+  mealParam: mealParamProps,
+}: MealFiltersProps) => {
   const [isAnyChecked, setAnyChecked] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const selectedIdsCount = selectedIds.length > 0 ? selectedIds.length : null;
 
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
+  const mealParam = mealParamProps.split(",").map(Number) ?? [];
 
   const handleCheckboxChange = (id: string) => {
     if (selectedIds.includes(id)) {
@@ -30,6 +32,12 @@ const MealFilters = ({ meals, setStateSearchParams }: MealFiltersProps) => {
     }
     setAnyChecked(false);
   };
+
+  useEffect(() => {
+    if (mealParam.length > 0 && selectedIds.length === 0) {
+      setSelectedIds(mealParam.map((el) => el.toString()));
+    }
+  }, []);
 
   useEffect(() => {
     if (selectedIds.length > 0) {
@@ -62,12 +70,15 @@ const MealFilters = ({ meals, setStateSearchParams }: MealFiltersProps) => {
             type="checkbox"
             key={`${meal.id}_${index}`}
             id={`${meal.id}-${meal.name}`}
-            name={meal.name || ""}
+            name={meal.name ?? ""}
             inputName="meal"
             checked={isAnyChecked ? false : undefined}
             onChange={() => {
               handleCheckboxChange(meal.id.toString());
             }}
+            defaultChecked={
+              mealParam.length > 0 ? mealParam.includes(meal.id) : false
+            }
           />
         ))}
       </div>

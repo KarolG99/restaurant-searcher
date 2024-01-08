@@ -7,6 +7,7 @@ type FilterProps = {
   type: string;
   onChange?: () => void;
   checked?: boolean;
+  defaultChecked?: boolean;
 };
 
 const Filter = ({
@@ -16,6 +17,7 @@ const Filter = ({
   type,
   onChange,
   checked,
+  defaultChecked,
 }: FilterProps) => {
   return (
     <>
@@ -26,6 +28,7 @@ const Filter = ({
         className="opacity-0 w-0 h-0 custom"
         onChange={onChange}
         checked={checked}
+        defaultChecked={defaultChecked}
       />
       <label
         htmlFor={id.toString()}

@@ -1,29 +1,28 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-
-import { Cuisine } from "@/database.types";
 
 import Filter from "./Filter";
-import { SearchParams } from "../types";
+
+import { Cuisine } from "@/database.types";
 
 type CuisineFiltersProps = {
   cuisines: Cuisine[] | null;
   setStateSearchParams: (value: string) => void;
+  cuisineParam: string;
 };
 
 const CuisineFilters = ({
   cuisines,
   setStateSearchParams,
+  cuisineParam: cuisineParamProps,
 }: CuisineFiltersProps) => {
   const [isAnyChecked, setAnyChecked] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const selectedIdsCount = selectedIds.length > 0 ? selectedIds.length : null;
 
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
+  const cuisineParam = cuisineParamProps.split(",").map(Number) ?? [];
 
   const handleCheckboxChange = (id: string) => {
     if (selectedIds.includes(id)) {
@@ -33,6 +32,12 @@ const CuisineFilters = ({
     }
     setAnyChecked(false);
   };
+
+  useEffect(() => {
+    if (cuisineParam.length > 0 && selectedIds.length === 0) {
+      setSelectedIds(cuisineParam.map((el) => el.toString()));
+    }
+  }, []);
 
   useEffect(() => {
     if (selectedIds.length > 0) {
@@ -65,12 +70,17 @@ const CuisineFilters = ({
             type="checkbox"
             key={`${cuisine.id}_${index}`}
             id={`${cuisine.id}-${cuisine.name}`}
-            name={cuisine.name || ""}
+            name={cuisine.name ?? ""}
             inputName="cuisines"
             checked={isAnyChecked ? false : undefined}
             onChange={() => {
               handleCheckboxChange(cuisine.id.toString());
             }}
+            defaultChecked={
+              cuisineParam.length > 0
+                ? cuisineParam.includes(cuisine.id)
+                : false
+            }
           />
         ))}
       </div>
