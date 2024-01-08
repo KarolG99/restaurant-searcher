@@ -22,7 +22,8 @@ const PriceFilters = ({
 
   const selectedIdsCount = selectedIds.length > 0 ? selectedIds.length : null;
 
-  const priceParam = priceParamProps.split(",").map(Number) ?? [];
+  const priceParam =
+    priceParamProps.length > 0 ? priceParamProps.split(",").map(Number) : [];
 
   const handleCheckboxChange = (id: string) => {
     if (selectedIds.includes(id)) {

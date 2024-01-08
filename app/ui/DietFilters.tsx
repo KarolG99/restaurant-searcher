@@ -22,7 +22,8 @@ const DietFilters = ({
 
   const selectedIdsCount = selectedIds.length > 0 ? selectedIds.length : null;
 
-  const dietParam = dietParamProps.split(",").map(Number) ?? [];
+  const dietParam =
+    dietParamProps.length > 0 ? dietParamProps.split(",").map(Number) : [];
 
   const handleCheckboxChange = (id: string) => {
     if (selectedIds.includes(id)) {

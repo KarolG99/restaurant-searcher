@@ -22,7 +22,10 @@ const CuisineFilters = ({
 
   const selectedIdsCount = selectedIds.length > 0 ? selectedIds.length : null;
 
-  const cuisineParam = cuisineParamProps.split(",").map(Number) ?? [];
+  const cuisineParam =
+    cuisineParamProps.length > 0
+      ? cuisineParamProps.split(",").map(Number)
+      : [];
 
   const handleCheckboxChange = (id: string) => {
     if (selectedIds.includes(id)) {
