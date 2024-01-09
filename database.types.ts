@@ -93,7 +93,7 @@ export interface Database {
       restaurants: {
         Row: {
           address: string | null;
-          averagePrice: number | null;
+          averagePrice: number[] | null;
           cuisine: number[] | null;
           description: string | null;
           diet: number[] | null;
@@ -111,7 +111,7 @@ export interface Database {
         };
         Insert: {
           address?: string | null;
-          averagePrice?: number | null;
+          averagePrice?: number[] | null;
           cuisine?: number[] | null;
           description?: string | null;
           diet?: number[] | null;
@@ -129,7 +129,7 @@ export interface Database {
         };
         Update: {
           address?: string | null;
-          averagePrice?: number | null;
+          averagePrice?: number[] | null;
           cuisine?: number[] | null;
           description?: string | null;
           diet?: number[] | null;
@@ -146,13 +146,6 @@ export interface Database {
           websiteUrl?: string | null;
         };
         Relationships: [
-          {
-            foreignKeyName: "restaurants_averagePrice_fkey";
-            columns: ["averagePrice"];
-            isOneToOne: false;
-            referencedRelation: "prices";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "restaurants_locationId_fkey";
             columns: ["locationId"];
@@ -171,6 +164,11 @@ export interface Database {
         Args: {
           lat: number;
           long: number;
+          cuisineFilter: number[] | null;
+          dietFilter: number[] | null;
+          priceFilter: number[] | null;
+          mealFilter: number[] | null;
+          locationparam: number;
         };
         Returns: {
           id: number;
@@ -179,9 +177,11 @@ export interface Database {
           long: number;
           dist_meters: number;
           reviews: Json;
-          images: string[];
+          mainImage: string;
           address: string;
-          averageprice: number;
+          averagePrice: number[];
+          cuisine: number[];
+          diet: number[];
         }[];
       };
       restaurants_in_view: {
@@ -199,7 +199,15 @@ export interface Database {
           reviews: Json;
           images: string[];
           address: string;
-          averageprice: number;
+          averageprice: number[];
+        }[];
+      };
+      get_location_data: {
+        Returns: {
+          id: number;
+          name: string;
+          lat: number;
+          long: number;
         }[];
       };
     };
@@ -298,6 +306,13 @@ export type Location = {
   name: string | null;
 };
 
+export type LocationV2 = {
+  id: number;
+  name: string | null;
+  lat: number;
+  long: number;
+};
+
 export type Cuisine = {
   id: number;
   name: string | null;
@@ -327,7 +342,7 @@ export type RestaurantReviews = {
 };
 export type Restaurant = {
   address: string | null;
-  averagePrice: number | null;
+  averagePrice: number[] | null;
   cuisine: number[] | null;
   description: string | null;
   diet: number[] | null;
@@ -340,9 +355,9 @@ export type Restaurant = {
   menu: string | null;
   name: string | null;
   openAt: string[] | null;
-  reviews:
-     RestaurantReviews
-    | Json
-    | null;
+  reviews: RestaurantReviews | Json | null;
   websiteUrl: string | null;
+  lat?: number;
+  long?: number;
+  dist_meters?: number;
 };

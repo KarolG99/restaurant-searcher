@@ -1,31 +1,34 @@
 "use client";
 
-import { Location, Cuisine, Diet, Meal, Price } from "@/database.types";
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+
 import CuisineFilters from "./CuisineFilters";
 import DietFilters from "./DietFilters";
 import LocationFilters from "./LocationFilters";
 import MealFilters from "./MealFilters";
 import PriceFilters from "./PriceFilters";
 import SubmitButton from "./SubmitButton";
-import { useState } from "react";
-import { SearchParams } from "../types";
-import { useSearchParams } from "next/navigation";
 
-type HomeFiltersProps = {
-  locations: Location[];
+import { LocationV2, Cuisine, Diet, Meal, Price } from "@/database.types";
+
+import { SearchParams } from "../types";
+
+type FiltersProps = {
+  locations: LocationV2[];
   cuisines: Cuisine[];
   diets: Diet[];
   prices: Price[];
   meals: Meal[];
 };
 
-const HomeFilters = ({
+const Filters = ({
   locations,
   cuisines,
   diets,
   prices,
   meals,
-}: HomeFiltersProps) => {
+}: FiltersProps) => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
 
@@ -86,4 +89,4 @@ const HomeFilters = ({
   );
 };
 
-export default HomeFilters;
+export default Filters;

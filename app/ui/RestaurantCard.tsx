@@ -25,9 +25,8 @@ const RestaurantCard = ({
   cuisines,
   diets,
 }: RestaurantCardProps) => {
-  const averagePrice = prices?.find(
-    (price) => price.id === restaurant.averagePrice
-  );
+  const averagePriceId = restaurant.averagePrice?.[0];
+  const averagePrice = prices?.find((price) => price.id === averagePriceId);
 
   const reviews = restaurant.reviews as RestaurantReviews;
 
@@ -43,6 +42,10 @@ const RestaurantCard = ({
         ?.filter((diet) => restaurant.diet?.includes(diet.id))
         .map((diet) => diet.name)) ||
     [];
+
+  const distanceInKm = restaurant.dist_meters
+    ? Math.fround(restaurant.dist_meters / 1000).toFixed(2)
+    : null;
 
   return (
     <section className=" w-full h-auto my-[10px] flex-col">
@@ -77,6 +80,12 @@ const RestaurantCard = ({
         </p>
 
         <p className=" text-s mb-[2px]">{restaurant.address}</p>
+
+        {distanceInKm && (
+          <p className=" text-s mb-[2px]">
+            <span className="font-bold">≈{distanceInKm} km</span> from downtown
+          </p>
+        )}
 
         {restaurantCuisines.length > 0 ? (
           <p className="text-s line-clamp-1">
