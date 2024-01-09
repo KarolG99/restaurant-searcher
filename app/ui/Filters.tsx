@@ -10,25 +10,25 @@ import MealFilters from "./MealFilters";
 import PriceFilters from "./PriceFilters";
 import SubmitButton from "./SubmitButton";
 
-import { Location, Cuisine, Diet, Meal, Price } from "@/database.types";
+import { LocationV2, Cuisine, Diet, Meal, Price } from "@/database.types";
 
 import { SearchParams } from "../types";
 
-type HomeFiltersProps = {
-  locations: Location[];
+type FiltersProps = {
+  locations: LocationV2[];
   cuisines: Cuisine[];
   diets: Diet[];
   prices: Price[];
   meals: Meal[];
 };
 
-const HomeFilters = ({
+const Filters = ({
   locations,
   cuisines,
   diets,
   prices,
   meals,
-}: HomeFiltersProps) => {
+}: FiltersProps) => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
 
@@ -89,4 +89,4 @@ const HomeFilters = ({
   );
 };
 
-export default HomeFilters;
+export default Filters;

@@ -5,13 +5,13 @@ import React from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 
-import { Cuisine, Diet, Location, Price, Restaurant } from "@/database.types";
+import { Cuisine, Diet, LocationV2, Price, Restaurant } from "@/database.types";
 
 import RestaurantCard from "./RestaurantCard";
 
 type RestaurantsCarouselProps = {
   restaurants: Restaurant[] | null;
-  location: Location | null;
+  location: LocationV2 | null;
   prices: Price[] | null;
   cuisines: Cuisine[] | null;
   diets: Diet[] | null;

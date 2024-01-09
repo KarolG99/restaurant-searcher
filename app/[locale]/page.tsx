@@ -1,13 +1,15 @@
 import { getDictionary } from "../dictionaries/getDictionary";
 
-import HomeFilters from "../ui/HomeFilters";
+import Filters from "../ui/Filters";
+import RestaurantsCarousel from "../ui/RestaurantsCarousel";
 
 import supabase from "../services/supabase";
 
 import { ParamsType } from "../types";
-import RestaurantsCarousel from "../ui/RestaurantsCarousel";
+import { revalidateTime } from "../config/base";
+import { LocationV2 } from "@/database.types";
 
-export const revalidate = 21600;
+export const revalidate = revalidateTime;
 
 export default async function Home({ params: { locale } }: ParamsType) {
   const dictionary = getDictionary(locale);
@@ -19,13 +21,13 @@ export default async function Home({ params: { locale } }: ParamsType) {
     pricesResponse,
     mealsResponse,
   ] = await Promise.all([
-    supabase.from("locations").select("*"),
+    supabase.rpc("get_location_data"),
     supabase.from("cuisines").select("*"),
     supabase.from("diets").select("*"),
     supabase.from("prices").select("*"),
     supabase.from("meals").select("*"),
   ]);
-  const locations = locationsResponse.data ?? [];
+  const locations: LocationV2[] = locationsResponse.data ?? [];
   const cuisines = cuisinesResponse.data ?? [];
   const diets = dietsResponse.data ?? [];
   const prices = pricesResponse.data ?? [];
@@ -50,7 +52,7 @@ export default async function Home({ params: { locale } }: ParamsType) {
         {dictionary.pages.home.title.text2}
       </h1>
 
-      <HomeFilters
+      <Filters
         locations={locations}
         cuisines={cuisines}
         diets={diets}

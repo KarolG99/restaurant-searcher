@@ -3,6 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { SearchParams } from "../types";
+import { Routes } from "../config/routes";
 
 type SubmitButtonProps = {
   stateSearchParams: {
@@ -69,7 +70,11 @@ const SubmitButton = ({ stateSearchParams }: SubmitButtonProps) => {
   return (
     <button
       className=" bg-black m-auto text-background px-[30px] py-[7px] text-center rounded-[20px] mt-[15px]"
-      onClick={() => replace(`${pathname}?${params.toString()}`)}
+      onClick={() =>
+        replace(
+          `/${pathname.split("/")[1]}/${Routes.SEARCH}?${params.toString()}`
+        )
+      }
     >
       Search
     </button>
