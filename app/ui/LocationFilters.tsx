@@ -4,10 +4,10 @@ import React from "react";
 
 import Filter from "./Filter";
 
-import { Location } from "../../database.types";
+import { LocationV2 } from "../../database.types";
 
 type LocationFiltersProps = {
-  locations: Location[] | null;
+  locations: LocationV2[] | null;
   setStateSearchParams: (value: string) => void;
   locationParam: string;
 };
