@@ -1,12 +1,12 @@
 "use client";
 
-import { Location, Cuisine, Diet, Price, Meal } from "@/database.types";
+import { Cuisine, Diet, Price, Meal, LocationV2 } from "@/database.types";
 
 import Filters from "./Filters";
 import { useState } from "react";
 
 type SearchFiltersProps = {
-  locations: Location[];
+  locations: LocationV2[];
   cuisines: Cuisine[];
   diets: Diet[];
   prices: Price[];
