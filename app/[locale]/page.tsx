@@ -25,11 +25,11 @@ export default async function Home({ params: { locale } }: ParamsType) {
     supabase.from("prices").select("*"),
     supabase.from("meals").select("*"),
   ]);
-  const locations = locationsResponse.data || [];
-  const cuisines = cuisinesResponse.data || [];
-  const diets = dietsResponse.data || [];
-  const prices = pricesResponse.data || [];
-  const meals = mealsResponse.data || [];
+  const locations = locationsResponse.data ?? [];
+  const cuisines = cuisinesResponse.data ?? [];
+  const diets = dietsResponse.data ?? [];
+  const prices = pricesResponse.data ?? [];
+  const meals = mealsResponse.data ?? [];
 
   const { data: restaurantsLocationId1 } = await supabase
     .from("restaurants")

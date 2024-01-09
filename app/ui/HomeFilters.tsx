@@ -1,15 +1,18 @@
 "use client";
 
-import { Location, Cuisine, Diet, Meal, Price } from "@/database.types";
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+
 import CuisineFilters from "./CuisineFilters";
 import DietFilters from "./DietFilters";
 import LocationFilters from "./LocationFilters";
 import MealFilters from "./MealFilters";
 import PriceFilters from "./PriceFilters";
 import SubmitButton from "./SubmitButton";
-import { useState } from "react";
+
+import { Location, Cuisine, Diet, Meal, Price } from "@/database.types";
+
 import { SearchParams } from "../types";
-import { useSearchParams } from "next/navigation";
 
 type HomeFiltersProps = {
   locations: Location[];

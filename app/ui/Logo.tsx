@@ -1,9 +1,9 @@
 type LogoProps = {
-  text: string;
+  size?: "xs" | "s" | "m" | "l" | "xl";
 };
 
-const Logo = ({ text }: LogoProps) => {
-  return <span className=" text-s font-bold">{text}</span>;
+const Logo = ({ size = "s" }: LogoProps) => {
+  return <span className={`text-${size} font-bold`}>BeeestRest</span>;
 };
 
 export default Logo;
