@@ -88,6 +88,7 @@ export default async function Search({
                 cuisines={cuisines}
                 diets={diets}
                 prices={prices}
+                locale={locale}
               />
             </div>
           ))}
