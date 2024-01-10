@@ -48,7 +48,7 @@ export default async function Restaurant({
 
   return (
     <>
-      <BackButton href={`/${locale}${Routes.SEARCH}`} text="Search Results" />
+      <BackButton goBack text="Back" />
 
       <article className="flex flex-col md:flex-row md:gap-[20px]">
         <div className="relative w-[full] h-[200px] md:w-3/5 lg:h-[250px] lg:w-4/6">
