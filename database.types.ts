@@ -355,7 +355,7 @@ export type Restaurant = {
   menu: string | null;
   name: string | null;
   openAt: string[] | null;
-  reviews: RestaurantReviews | Json | null;
+  reviews: RestaurantReviews | null;
   websiteUrl: string | null;
   lat?: number;
   long?: number;
