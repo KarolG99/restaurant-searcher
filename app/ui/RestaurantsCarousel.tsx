@@ -8,6 +8,7 @@ import "@splidejs/react-splide/css";
 import { Cuisine, Diet, LocationV2, Price, Restaurant } from "@/database.types";
 
 import RestaurantCard from "./RestaurantCard";
+import { Languages } from "../types";
 
 type RestaurantsCarouselProps = {
   restaurants: Restaurant[] | null;
@@ -15,6 +16,7 @@ type RestaurantsCarouselProps = {
   prices: Price[] | null;
   cuisines: Cuisine[] | null;
   diets: Diet[] | null;
+  locale: Languages;
 };
 
 const RestaurantsCarousel = ({
@@ -22,7 +24,8 @@ const RestaurantsCarousel = ({
   location,
   prices,
   cuisines,
-  diets
+  diets,
+  locale,
 }: RestaurantsCarouselProps) => {
   const splideOptions = {
     perPage: 3,
@@ -52,6 +55,7 @@ const RestaurantsCarousel = ({
               prices={prices}
               cuisines={cuisines}
               diets={diets}
+              locale={locale}
             />
           </SplideSlide>
         ))}

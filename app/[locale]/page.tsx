@@ -66,6 +66,7 @@ export default async function Home({ params: { locale } }: ParamsType) {
         prices={prices}
         cuisines={cuisines}
         diets={diets}
+        locale={locale}
       />
 
       <RestaurantsCarousel
@@ -74,6 +75,7 @@ export default async function Home({ params: { locale } }: ParamsType) {
         prices={prices}
         cuisines={cuisines}
         diets={diets}
+        locale={locale}
       />
     </>
   );
