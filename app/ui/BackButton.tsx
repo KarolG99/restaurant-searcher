@@ -30,7 +30,7 @@ const BackButton = ({ href, text, goBack, locale }: BackButtonProps) => {
     </button>
   ) : (
     <Link
-      href={href ?? "/"}
+      href={href ?? `/${locale}`}
       className="flex items-center gap-[8px] font-medium mb-[20px]"
     >
       <ArrowLeft />
