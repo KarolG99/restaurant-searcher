@@ -68,7 +68,7 @@ export default async function Restaurant({
 
   return (
     <>
-      <BackButton goBack text="Back" />
+      <BackButton goBack text="Back" locale={locale} />
 
       <article className="flex flex-col border-b-[1px] border-black pb-[15px] md:flex-row md:gap-[20px] md:border-none">
         <div className="relative w-[full] h-[200px] md:w-3/5 lg:h-[250px] lg:w-4/6">
