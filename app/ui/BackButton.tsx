@@ -11,7 +11,7 @@ type BackButtonProps = {
 };
 
 const BackButton = ({ href, text, goBack, locale }: BackButtonProps) => {
-  const referrer = document.referrer;
+  const referrer = document?.referrer;
   const noReferrer = referrer === "";
 
   return goBack ? (

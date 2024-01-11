@@ -49,7 +49,7 @@ export default async function Search({
   const prices = pricesResponse.data ?? [];
   const meals = mealsResponse.data ?? [];
 
-  const { restaurants, error } = await getSearchResults(
+  const { restaurants } = await getSearchResults(
     locationParam,
     cuisineParam,
     dietParam,
@@ -78,7 +78,7 @@ export default async function Search({
         <h2 className="text-l font-bold">Search results</h2>
 
         <div className="flex flex-wrap gap-[10px]">
-          {restaurants.map((restaurant: Restaurant, index: number) => (
+          {restaurants?.map((restaurant: Restaurant, index: number) => (
             <div
               key={`${restaurant.id}_${index}`}
               className="restaurantWrapper"

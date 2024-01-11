@@ -27,15 +27,6 @@ export const getSearchResults = async (
   const searchedLocation = locations.find((el) => el.id === locationFilter);
 
   if (locationFilter && searchedLocation) {
-    // console.log({
-    //   lat: searchedLocation.lat,
-    //   long: searchedLocation.long,
-    //   cuisines: cuisineFilter.length > 0 ? cuisineFilter : null,
-    //   diets: dietFilter.length > 0 ? dietFilter : null,
-    //   prices: priceFilter.length > 0 ? priceFilter : null,
-    //   meals: mealFilter.length > 0 ? mealFilter : null,
-    //   locationparam: locationFilter,
-    // });
     const { data: restaurants, error } = await supabase.rpc(
       "nearby_restaurants",
       {
@@ -50,13 +41,23 @@ export const getSearchResults = async (
     );
     return { restaurants, error };
   } else {
-    const { data: restaurants, error } = await supabase
-      .from("restaurants")
-      .select("*")
-      .contains("cuisine", cuisineFilter)
-      .contains("diet", dietFilter)
-      .contains("averagePrice", priceFilter)
-      .contains("meal", mealFilter);
+    let query = supabase.from("restaurants").select("*");
+
+    if (cuisineFilter.length > 0) {
+      query = query.overlaps("cuisine", cuisineFilter);
+    }
+    if (dietFilter.length > 0) {
+      query = query.overlaps("diet", dietFilter);
+    }
+    if (priceFilter.length > 0) {
+      query = query.overlaps("averagePrice", priceFilter);
+    }
+    if (mealFilter.length > 0) {
+      query = query.overlaps("meal", mealFilter);
+    }
+
+    const { data: restaurants, error } = await query;
+
     return { restaurants, error };
   }
 };
