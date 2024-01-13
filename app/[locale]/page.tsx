@@ -1,3 +1,7 @@
+import { Metadata } from "next";
+
+import { LocationV2 } from "@/database.types";
+
 import { getDictionary } from "../dictionaries/getDictionary";
 
 import Filters from "../ui/Filters";
@@ -6,10 +10,49 @@ import RestaurantsCarousel from "../ui/RestaurantsCarousel";
 import supabase from "../services/supabase";
 
 import { ParamsType } from "../types";
-import { revalidateTime } from "../config/base";
-import { LocationV2 } from "@/database.types";
+import {
+  metadataImageUrl,
+  metadataSiteName,
+  metadataUrl,
+  revalidateTime,
+} from "../config/base";
 
 export const revalidate = revalidateTime;
+
+export async function generateMetadata({
+  params: { locale },
+}: ParamsType): Promise<Metadata> {
+  const dictionary = getDictionary(locale);
+
+  return {
+    title: dictionary.common.metadata.title,
+    description: dictionary.common.metadata.description,
+    openGraph: {
+      title: dictionary.common.metadata.title,
+      siteName: metadataSiteName,
+      url: metadataUrl,
+      description: dictionary.common.metadata.description,
+      type: "website",
+      images: [
+        {
+          url: metadataImageUrl,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+    twitter: {
+      title: dictionary.common.metadata.title,
+      images: [
+        {
+          url: metadataImageUrl,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+  };
+}
 
 export default async function Home({ params: { locale } }: ParamsType) {
   const dictionary = getDictionary(locale);

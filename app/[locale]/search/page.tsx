@@ -1,14 +1,57 @@
-import { revalidateTime } from "@/app/config/base";
+import { Metadata } from "next";
+
+import {
+  metadataImageUrl,
+  metadataSiteName,
+  metadataUrl,
+  revalidateTime,
+} from "@/app/config/base";
+import { Routes } from "@/app/config/routes";
+import { getDictionary } from "@/app/dictionaries/getDictionary";
 import { getSearchResults } from "@/app/services/getSearchResults";
 import supabase from "@/app/services/supabase";
 import { ParamsType } from "@/app/types";
 import BackButton from "@/app/ui/BackButton";
-import Filters from "@/app/ui/Filters";
 import RestaurantCard from "@/app/ui/RestaurantCard";
 import SearchFilters from "@/app/ui/SearchFilters";
 import { Restaurant } from "@/database.types";
 
 export const revalidate = revalidateTime;
+
+export async function generateMetadata({
+  params: { locale },
+}: ParamsType): Promise<Metadata> {
+  const dictionary = getDictionary(locale);
+
+  return {
+    title: dictionary.common.metadata.search.title,
+    description: dictionary.common.metadata.search.description,
+    openGraph: {
+      title: dictionary.common.metadata.search.title,
+      siteName: metadataSiteName,
+      url: `${metadataUrl}${Routes.SEARCH}`,
+      description: dictionary.common.metadata.search.description,
+      type: "website",
+      images: [
+        {
+          url: metadataImageUrl,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+    twitter: {
+      title: dictionary.common.metadata.search.title,
+      images: [
+        {
+          url: metadataImageUrl,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+  };
+}
 
 type SearchProps = {
   searchParams?: {
