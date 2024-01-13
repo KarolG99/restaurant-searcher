@@ -1,3 +1,7 @@
+import { Metadata } from "next";
+
+import { LocationV2 } from "@/database.types";
+
 import { getDictionary } from "../dictionaries/getDictionary";
 
 import Filters from "../ui/Filters";
@@ -12,8 +16,6 @@ import {
   metadataUrl,
   revalidateTime,
 } from "../config/base";
-import { LocationV2 } from "@/database.types";
-import { Metadata } from "next";
 
 export const revalidate = revalidateTime;
 
