@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Metadata } from "next";
 
 import supabase from "@/app/services/supabase";
 import { Languages } from "@/app/types";
@@ -7,17 +8,70 @@ import BackButton from "@/app/ui/BackButton";
 import StarIconFilled from "@/app/icons/StarIconFilled";
 import MapIcon from "@/app/icons/MapIcon";
 import ExternalLinkIcon from "@/app/icons/ExternalLinkIcon";
+import {
+  metadataImageUrl,
+  metadataSiteName,
+  metadataUrl,
+  revalidateTime,
+} from "@/app/config/base";
+import { getDictionary } from "@/app/dictionaries/getDictionary";
 
-type RestaurantProps = {
+export const revalidate = revalidateTime;
+
+type RestaurantParamsType = {
   params: {
     locale: Languages;
     slug: string;
   };
 };
 
+export async function generateMetadata({
+  params: { locale, slug },
+}: RestaurantParamsType): Promise<Metadata> {
+  const dictionary = getDictionary(locale);
+
+  const restaurantId = Number(slug.split("-")[0]);
+  const { data } = await supabase
+    .from("restaurants")
+    .select("*")
+    .eq("id", Number(restaurantId));
+  const restaurant: Restaurant = data?.[0];
+
+  return {
+    title: `${dictionary.common.metadata.title} | ${restaurant.name}`,
+    description: `${dictionary.common.metadata.title} ${
+      restaurant.description ? "-" + restaurant.description : ""
+    }`,
+    openGraph: {
+      title: dictionary.common.metadata.search.title,
+      siteName: metadataSiteName,
+      url: `${metadataUrl}/${slug}`,
+      description: dictionary.common.metadata.description,
+      type: "website",
+      images: [
+        {
+          url: restaurant.mainImage ?? metadataImageUrl,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+    twitter: {
+      title: dictionary.common.metadata.search.title,
+      images: [
+        {
+          url: restaurant.mainImage ?? metadataImageUrl,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+  };
+}
+
 export default async function Restaurant({
   params: { locale, slug },
-}: RestaurantProps) {
+}: RestaurantParamsType) {
   const restaurantId = Number(slug.split("-")[0]);
   const { data } = await supabase
     .from("restaurants")
