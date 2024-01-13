@@ -43,7 +43,7 @@ export async function generateMetadata({
       restaurant.description ? "| " + restaurant.description : ""
     }`,
     openGraph: {
-      title: dictionary.common.metadata.search.title,
+      title: `${dictionary.common.metadata.title} | ${restaurant.name}`,
       siteName: metadataSiteName,
       url: `${metadataUrl}/${slug}`,
       description: dictionary.common.metadata.description,
@@ -57,7 +57,7 @@ export async function generateMetadata({
       ],
     },
     twitter: {
-      title: dictionary.common.metadata.search.title,
+      title: `${dictionary.common.metadata.title} | ${restaurant.name}`,
       images: [
         {
           url: restaurant.mainImage ?? metadataImageUrl,
