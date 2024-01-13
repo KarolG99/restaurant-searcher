@@ -40,7 +40,7 @@ export async function generateMetadata({
   return {
     title: `${dictionary.common.metadata.title} | ${restaurant.name}`,
     description: `${dictionary.common.metadata.title} ${
-      restaurant.description ? "-" + restaurant.description : ""
+      restaurant.description ? "| " + restaurant.description : ""
     }`,
     openGraph: {
       title: dictionary.common.metadata.search.title,
