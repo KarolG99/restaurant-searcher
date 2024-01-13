@@ -1,12 +1,6 @@
-import type { Metadata } from "next";
 import { satoshi } from "@/fonts";
 
 import "./globals.css";
-
-export const metadata: Metadata = {
-  title: "Restaurant Searcher",
-  description: "Restaurant Searcher App - beta",
-};
 
 export default function RootLayout({
   children,
