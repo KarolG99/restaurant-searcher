@@ -11,13 +11,10 @@ type BackButtonProps = {
 };
 
 const BackButton = ({ href, text, goBack, locale }: BackButtonProps) => {
-  const referrer = document?.referrer;
-  const noReferrer = referrer === "";
-
   return goBack ? (
     <button
       onClick={() => {
-        if (noReferrer) {
+        if (window.history.length <= 1) {
           window.location.href = `/${locale}`;
         } else {
           window.history.back();
@@ -26,7 +23,7 @@ const BackButton = ({ href, text, goBack, locale }: BackButtonProps) => {
       className="flex items-center gap-[8px] font-medium mb-[20px]"
     >
       <ArrowLeft />
-      {noReferrer ? "Home" : text}
+      {text}
     </button>
   ) : (
     <Link
