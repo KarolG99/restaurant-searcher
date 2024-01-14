@@ -127,7 +127,7 @@ export default async function Restaurant({
       <article className="flex flex-col border-b-[1px] border-black pb-[15px] md:flex-row md:gap-[20px] md:border-none">
         <div className="relative w-[full] h-[200px] md:w-3/5 lg:h-[250px] lg:w-4/6">
           <Image
-            src={restaurant.mainImage || ""}
+            src={restaurant.mainImage ?? ""}
             alt={`Image of ${restaurant.name}`}
             fill
             style={{
@@ -238,18 +238,23 @@ export default async function Restaurant({
               )}
             </p>
             <div className="flex flex-wrap gap-[15px]">
-              <a
-                href={restaurant.reviews.googleReviewsUrl}
-                className="flex justify-center items-center gap-[4px] border-b-[1px] border-black"
-              >
-                Google reviews <ExternalLinkIcon />
-              </a>
-              <a
-                href={restaurant.reviews.tripadvisorReviewsUrl}
-                className="flex justify-center items-center gap-[4px] border-b-[1px] border-black"
-              >
-                Tripadvisor reviews <ExternalLinkIcon />
-              </a>
+              {restaurant.reviews.googleReviewsUrl && (
+                <a
+                  href={restaurant.reviews.googleReviewsUrl}
+                  className="flex justify-center items-center gap-[4px] border-b-[1px] border-black"
+                >
+                  Google reviews <ExternalLinkIcon />
+                </a>
+              )}
+
+              {restaurant.reviews.tripadvisorReviewsUrl && (
+                <a
+                  href={restaurant.reviews.tripadvisorReviewsUrl}
+                  className="flex justify-center items-center gap-[4px] border-b-[1px] border-black"
+                >
+                  Tripadvisor reviews <ExternalLinkIcon />
+                </a>
+              )}
             </div>
           </section>
         )}
