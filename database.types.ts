@@ -210,6 +210,28 @@ export interface Database {
           long: number;
         }[];
       };
+      restaurant_info: {
+        Args: {
+          restaurant_id: number;
+        };
+        Returns: {
+          id: number;
+          name: string;
+          description: string | null;
+          lat: number;
+          long: number;
+          reviews: Json;
+          mainImage: string;
+          address: string;
+          averagePrice: number[];
+          cuisine: number[];
+          diet: number[];
+          meal: number[];
+          menu: string;
+          websiteUrl: string | null;
+          locationId: number;
+        };
+      };
     };
     Enums: {
       [_ in never]: never;

@@ -3,7 +3,7 @@ import { Metadata } from "next";
 
 import supabase from "@/app/services/supabase";
 import { Languages } from "@/app/types";
-import { LocationV2, Restaurant } from "@/database.types";
+import { LocationV2, Restaurant, RestaurantReviews } from "@/database.types";
 import BackButton from "@/app/ui/BackButton";
 import StarIconFilled from "@/app/icons/StarIconFilled";
 import MapIcon from "@/app/icons/MapIcon";
@@ -15,6 +15,7 @@ import {
   revalidateTime,
 } from "@/app/config/base";
 import { getDictionary } from "@/app/dictionaries/getDictionary";
+import RestaurantMapView from "@/app/ui/RestaurantMapView";
 
 export const revalidate = revalidateTime;
 
@@ -73,10 +74,9 @@ export default async function Restaurant({
   params: { locale, slug },
 }: RestaurantParamsType) {
   const restaurantId = Number(slug.split("-")[0]);
-  const { data } = await supabase
-    .from("restaurants")
-    .select("*")
-    .eq("id", Number(restaurantId));
+  const { data } = await supabase.rpc("restaurant_info", {
+    restaurant_id: Number(restaurantId),
+  });
   const restaurant: Restaurant = data?.[0];
 
   const [
@@ -167,9 +167,17 @@ export default async function Restaurant({
             </span>
           </p>
 
-          <button className=" bg-black text-background w-fit px-[13px] py-[5px] rounded-md flex justify-center items-center gap-[8px]">
-            See on the map <MapIcon fill="#F5F5DC" />
-          </button>
+          {restaurant.lat && restaurant.long && (
+            <RestaurantMapView
+              restaurantInfo={{
+                lat: restaurant.lat,
+                long: restaurant.long,
+                name: restaurant.name ?? "",
+                averagePriceSymbol: averagePrice.symbol,
+                reviews: restaurant.reviews as RestaurantReviews,
+              }}
+            />
+          )}
         </section>
       </article>
 
