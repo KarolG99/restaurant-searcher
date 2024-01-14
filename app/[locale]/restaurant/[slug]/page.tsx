@@ -73,10 +73,9 @@ export default async function Restaurant({
   params: { locale, slug },
 }: RestaurantParamsType) {
   const restaurantId = Number(slug.split("-")[0]);
-  const { data } = await supabase
-    .from("restaurants")
-    .select("*")
-    .eq("id", Number(restaurantId));
+  const { data } = await supabase.rpc("restaurant_info", {
+    restaurant_id: Number(restaurantId),
+  });
   const restaurant: Restaurant = data?.[0];
 
   const [
