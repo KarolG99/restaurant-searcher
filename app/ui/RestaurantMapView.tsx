@@ -12,6 +12,7 @@ type RestaurantMapViewProps = {
     name: string;
     reviews: RestaurantReviews;
     averagePriceSymbol: string;
+    mainImage: string;
   };
 };
 

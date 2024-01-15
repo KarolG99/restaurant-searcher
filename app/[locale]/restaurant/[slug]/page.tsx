@@ -175,6 +175,7 @@ export default async function Restaurant({
                 name: restaurant.name ?? "",
                 averagePriceSymbol: averagePrice.symbol,
                 reviews: restaurant.reviews as RestaurantReviews,
+                mainImage: restaurant.mainImage || "",
               }}
             />
           )}

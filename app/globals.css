@@ -55,7 +55,7 @@ input[type="checkbox"].custom:checked + label {
   }
 }
 
-.close-map {
+.map-button {
   z-index: 1000;
 }
 
