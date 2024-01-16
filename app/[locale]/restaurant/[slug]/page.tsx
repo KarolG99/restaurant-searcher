@@ -6,7 +6,6 @@ import { Languages } from "@/app/types";
 import { LocationV2, Restaurant, RestaurantReviews } from "@/database.types";
 import BackButton from "@/app/ui/BackButton";
 import StarIconFilled from "@/app/icons/StarIconFilled";
-import MapIcon from "@/app/icons/MapIcon";
 import ExternalLinkIcon from "@/app/icons/ExternalLinkIcon";
 import {
   metadataImageUrl,

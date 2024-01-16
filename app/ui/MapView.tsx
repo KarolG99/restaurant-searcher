@@ -8,11 +8,13 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 
-import { RestaurantReviews } from "@/database.types";
+import { Price, RestaurantReviews } from "@/database.types";
 
 import MarkerImg from "@/public/marker.png";
 
 import CloseIcon from "../icons/CloseIcon";
+import MapMarker from "./MapMarker";
+import SearchedMapRestaurants from "./SearchedMapRestaurants";
 
 type MapViewProps = {
   centerLat: number;
@@ -27,6 +29,8 @@ type MapViewProps = {
     averagePriceSymbol: string;
     mainImage: string;
   }[];
+  isSearchMap?: boolean;
+  prices?: Price[];
 };
 
 const MapView = ({
@@ -35,6 +39,8 @@ const MapView = ({
   zoom,
   handleCloseMap,
   restaurantInfo,
+  isSearchMap,
+  prices
 }: MapViewProps) => {
   return (
     <MapContainer
@@ -52,49 +58,22 @@ const MapView = ({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {restaurantInfo.map((restaurant, index) => {
-        const { name, lat, long, reviews, averagePriceSymbol, mainImage } =
-          restaurant;
-
-        const customIcon = icon({
-          iconUrl: MarkerImg.src,
-          iconSize: [32, 34],
-          iconAnchor: [14, 38],
-          popupAnchor: [2, -35],
-          tooltipAnchor: [16, -28],
-        });
-
-        return (
-          <Marker
-            key={`${name}_${index}`}
-            position={[long, lat]}
-            icon={customIcon}
-          >
-            <Popup>
-              <div className="flex gap-[8px]">
-                <div className="relative w-[60px] h-[60px]">
-                  <Image
-                    src={mainImage}
-                    alt={`${name} restaurant image`}
-                    fill
-                    className="rounded-md"
-                  />
-                </div>
-                <div>
-                  <h2 className=" line-clamp-2 font-bold mb-[4px]">{name}</h2>
-                  <span>
-                    {reviews.average} | {averagePriceSymbol}
-                  </span>
-                </div>
-              </div>
-            </Popup>
-          </Marker>
-        );
-      })}
+      {!isSearchMap ? (
+        restaurantInfo.map((restaurant, index) => {
+          return (
+            <MapMarker
+              key={`${restaurant.name}_${index}`}
+              restaurant={restaurant}
+            />
+          );
+        })
+      ) : (
+        <SearchedMapRestaurants prices={prices} />
+      )}
 
       <button
         onClick={handleCloseMap}
-        className="map-button bg-black absolute top-[10px] text-background text-m rounded-lg right-[10px] w-[30px] h-[30px] flex items-center justify-center"
+        className="map-button bg-black absolute top-[10px] text-background text-m rounded-full right-[10px] w-[30px] h-[30px] flex items-center justify-center"
       >
         <CloseIcon fill="white" />
       </button>
