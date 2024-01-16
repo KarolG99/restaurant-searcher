@@ -16,6 +16,7 @@ import {
   metadataUrl,
   revalidateTime,
 } from "../config/base";
+import SearchMapView from "../ui/SearchMapVIew";
 
 export const revalidate = revalidateTime;
 
@@ -120,6 +121,8 @@ export default async function Home({ params: { locale } }: ParamsType) {
         diets={diets}
         locale={locale}
       />
+
+      <SearchMapView locations={locations} prices={prices} />
     </>
   );
 }

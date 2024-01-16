@@ -197,7 +197,7 @@ export interface Database {
           lat: number;
           long: number;
           reviews: Json;
-          images: string[];
+          mainImage: string;
           address: string;
           averageprice: number[];
         }[];
