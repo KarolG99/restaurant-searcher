@@ -182,6 +182,7 @@ export interface Database {
           averagePrice: number[];
           cuisine: number[];
           diet: number[];
+          count: number;
         }[];
       };
       restaurants_in_view: {
