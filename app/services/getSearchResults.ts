@@ -1,5 +1,6 @@
 import { Cuisine, Diet, LocationV2, Meal, Price } from "@/database.types";
 import supabase from "./supabase";
+import { getSearchRange } from "../utils/getSearchRange";
 
 export const getSearchResults = async (
   locationParam: string,
@@ -7,6 +8,7 @@ export const getSearchResults = async (
   dietParam: string,
   priceParam: string,
   mealParam: string,
+  pageParam: string,
   locations: LocationV2[],
   cuisines: Cuisine[],
   diets: Diet[],
@@ -26,10 +28,15 @@ export const getSearchResults = async (
 
   const searchedLocation = locations.find((el) => el.id === locationFilter);
 
+  const { from, to } = getSearchRange(Number(pageParam));
+
   if (locationFilter && searchedLocation) {
-    const { data: restaurants, error } = await supabase.rpc(
-      "nearby_restaurants",
-      {
+    const {
+      data: restaurants,
+      error,
+      count,
+    } = await supabase
+      .rpc("nearby_restaurants", {
         lat: searchedLocation.lat,
         long: searchedLocation.long,
         cuisines: cuisineFilter.length > 0 ? cuisineFilter : null,
@@ -37,11 +44,11 @@ export const getSearchResults = async (
         prices: priceFilter.length > 0 ? priceFilter : null,
         meals: mealFilter.length > 0 ? mealFilter : null,
         locationparam: locationFilter,
-      }
-    );
-    return { restaurants, error };
+      })
+      .range(from, to);
+    return { restaurants, error, count };
   } else {
-    let query = supabase.from("restaurants").select("*");
+    let query = supabase.from("restaurants").select("*", { count: "exact" });
 
     if (cuisineFilter.length > 0) {
       query = query.overlaps("cuisine", cuisineFilter);
@@ -56,8 +63,8 @@ export const getSearchResults = async (
       query = query.overlaps("meal", mealFilter);
     }
 
-    const { data: restaurants, error } = await query;
+    const { data: restaurants, error, count } = await query.range(from, to);
 
-    return { restaurants, error };
+    return { restaurants, error, count };
   }
 };

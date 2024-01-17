@@ -4,6 +4,7 @@ import {
   metadataImageUrl,
   metadataSiteName,
   metadataUrl,
+  resultsPerPage,
   revalidateTime,
 } from "@/app/config/base";
 import { Routes } from "@/app/config/routes";
@@ -15,6 +16,8 @@ import BackButton from "@/app/ui/BackButton";
 import RestaurantCard from "@/app/ui/RestaurantCard";
 import SearchFilters from "@/app/ui/SearchFilters";
 import { Restaurant } from "@/database.types";
+import Pagination from "@/app/ui/Pagination";
+import { getSearchRange } from "@/app/utils/getSearchRange";
 
 export const revalidate = revalidateTime;
 
@@ -60,6 +63,7 @@ type SearchProps = {
     diet?: string;
     price?: string;
     meal?: string;
+    page?: string;
   };
 } & ParamsType;
 
@@ -72,6 +76,7 @@ export default async function Search({
   const dietParam = searchParams?.diet || "";
   const priceParam = searchParams?.price || "";
   const mealParam = searchParams?.meal || "";
+  const pageParam = searchParams?.page || "1";
 
   const [
     locationsResponse,
@@ -92,18 +97,22 @@ export default async function Search({
   const prices = pricesResponse.data ?? [];
   const meals = mealsResponse.data ?? [];
 
-  const { restaurants } = await getSearchResults(
+  const { restaurants, count } = await getSearchResults(
     locationParam,
     cuisineParam,
     dietParam,
     priceParam,
     mealParam,
+    pageParam,
     locations,
     cuisines,
     diets,
     prices,
     meals
   );
+
+  const resultsCount = count ?? restaurants[0]?.count ?? 0;
+  const totalPages = Math.ceil(resultsCount / resultsPerPage);
 
   return (
     <article>
@@ -118,7 +127,7 @@ export default async function Search({
       />
 
       <section className="mt-[20px]">
-        <h2 className="text-l font-bold">Search results</h2>
+        <h2 className="text-l font-bold">Search results ({resultsCount})</h2>
 
         <div className="flex flex-wrap gap-[10px]">
           {restaurants?.map((restaurant: Restaurant, index: number) => (
@@ -136,6 +145,8 @@ export default async function Search({
             </div>
           ))}
         </div>
+
+        <Pagination totalPages={totalPages} />
       </section>
     </article>
   );
