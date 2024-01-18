@@ -1,3 +1,3 @@
 ### Restaurant Searcher 🔎🧑‍🍳
 
-Demo (main): [https://restaurant-searcher-main.vercel.app/](beeestrest.vercel.app/)
+Demo (main): [https://beeestrest.vercel.app/](https://beeestrest.vercel.app/en)
