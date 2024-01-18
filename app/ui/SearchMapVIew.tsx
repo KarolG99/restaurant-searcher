@@ -24,7 +24,7 @@ type SearchMapViewProps = {
   selectedLocation?: LocationV2;
 };
 
-const SearchMapVIew = ({
+const SearchMapView = ({
   cuisineParam,
   dietParam,
   priceParam,
@@ -79,4 +79,4 @@ const SearchMapVIew = ({
   );
 };
 
-export default SearchMapVIew;
+export default SearchMapView;
