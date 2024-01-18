@@ -1,127 +1,119 @@
 "use client";
 
+import {
+  Pagination,
+  PaginationItemRenderProps,
+  PaginationItemType,
+} from "@nextui-org/pagination";
+import AngleRight from "../icons/AngleRight";
+import clsx from "clsx";
+import AngleLeft from "../icons/AngleLeft";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import clsx from "clsx";
-import { generatePagination } from "@/app/utils/generatePagination";
-import AngleLeft from "@/app/icons/AngleLeft";
-import AngleRight from "@/app/icons/AngleRight";
 
-const Pagination = ({ totalPages }: { totalPages: number }) => {
-  const pathname = usePathname();
+const PaginationComponent = ({ totalPages }: { totalPages: number }) => {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
 
-  const createPageURL = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", pageNumber.toString());
-    return `${pathname}?${params.toString()}`;
-  };
-
-  const allPages = generatePagination(currentPage, totalPages);
-
   return (
-    <div className="flex m-auto w-fit mt-[20px] md:mt-[40px]">
-      <PaginationArrow
-        direction="left"
-        href={createPageURL(currentPage - 1)}
-        isDisabled={currentPage <= 1}
-      />
-
-      <div className="flex -space-x-px">
-        {allPages.map((page, index) => {
-          let position: "first" | "last" | "single" | "middle" | undefined;
-
-          if (index === 0) position = "first";
-          if (index === allPages.length - 1) position = "last";
-          if (allPages.length === 1) position = "single";
-          if (page === "...") position = "middle";
-
-          return (
-            <PaginationNumber
-              key={page}
-              href={createPageURL(page)}
-              page={page}
-              position={position}
-              isActive={currentPage === page}
-            />
-          );
-        })}
-      </div>
-
-      <PaginationArrow
-        direction="right"
-        href={createPageURL(currentPage + 1)}
-        isDisabled={currentPage >= totalPages}
+    <div className="flex justify-center items-center mt-[20px]">
+      <Pagination
+        disableCursorAnimation
+        showControls
+        total={totalPages}
+        initialPage={currentPage}
+        className="gap-2"
+        renderItem={(props) => PaginationItem({ ...props, currentPage })}
+        variant="light"
+        siblings={window.innerWidth <= 500 ? 0 : 1}
       />
     </div>
   );
 };
 
-function PaginationNumber({
-  page,
-  href,
+export default PaginationComponent;
+
+const PaginationItem = ({
+  ref,
+  key,
+  value,
   isActive,
-  position,
-}: {
-  page: number | string;
-  href: string;
-  position?: "first" | "last" | "middle" | "single";
-  isActive: boolean;
-}) {
-  const className = clsx(
-    "flex h-[33px] w-[33px] md:w-[40px] md:h-[40px] items-center justify-center text-s border",
-    {
-      "rounded-l-md": position === "first" || position === "single",
-      "rounded-r-md": position === "last" || position === "single",
-      "z-10 bg-black border-black text-white": isActive,
-      "hover:bg-gray-100": !isActive && position !== "middle",
-      "text-gray-300": position === "middle",
+  onNext,
+  onPrevious,
+  setPage,
+  className,
+  currentPage,
+  total
+}: PaginationItemRenderProps & { currentPage: number }) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createPageURL = () => {
+    const params = new URLSearchParams(searchParams);
+
+    if (value === PaginationItemType.NEXT) {
+      params.set("page", (currentPage + 1).toString());
+      return `${pathname}?${params.toString()}`;
+    } else if (value === PaginationItemType.PREV) {
+      params.set("page", (currentPage - 1).toString());
+      return `${pathname}?${params.toString()}`;
+    } else {
+      params.set("page", value.toString());
+      return `${pathname}?${params.toString()}`;
     }
-  );
+  };
 
-  return isActive || position === "middle" ? (
-    <div className={className}>{page}</div>
-  ) : (
-    <Link href={href} className={className}>
-      {page}
-    </Link>
-  );
-}
+  if (value === PaginationItemType.NEXT) {
+    return currentPage < total ? (
+      <Link
+        href={createPageURL()}
+        key={key}
+        className={clsx(className, "min-w-8 w-8 h-8")}
+        onClick={onNext}
+      >
+        <AngleRight />
+      </Link>
+    ) : null;
+  }
 
-function PaginationArrow({
-  href,
-  direction,
-  isDisabled,
-}: {
-  href: string;
-  direction: "left" | "right";
-  isDisabled?: boolean;
-}) {
-  const className = clsx(
-    "flex h-[33px] w-[33px] md:w-[40px] md:h-[40px] items-center justify-center rounded-md border",
-    {
-      "pointer-events-none text-gray-300": isDisabled,
-      "hover:bg-gray-100": !isDisabled,
-      "mr-2 md:mr-4": direction === "left",
-      "ml-2 md:ml-4": direction === "right",
-    }
-  );
+  if (value === PaginationItemType.PREV) {
+    return currentPage - 1 !== 0 ? (
+      <Link
+        href={createPageURL()}
+        key={key}
+        className={clsx(className, "bg-default-200/50 min-w-8 w-8 h-8")}
+        onClick={onPrevious}
+      >
+        <AngleLeft />
+      </Link>
+    ) : null;
+  }
 
-  const icon =
-    direction === "left" ? (
-      <AngleLeft fill={isDisabled ? "#e5e7eb" : "black"} />
-    ) : (
-      <AngleRight fill={isDisabled ? "#e5e7eb" : "black"} />
+  if (value === PaginationItemType.DOTS) {
+    return (
+      <button
+        key={key}
+        className={clsx(className, "w-[35px] h-[35px] rounded-md")}
+      >
+        ...
+      </button>
     );
+  }
 
-  return isDisabled ? (
-    <div className={className}>{icon}</div>
-  ) : (
-    <Link className={className} href={href}>
-      {icon}
+  // cursor is the default item
+  return (
+    <Link
+      href={createPageURL()}
+      key={key}
+      ref={ref}
+      className={clsx(
+        className,
+        isActive && "text-white bg-black font-bold",
+        "w-[35px] h-[35px] rounded-md"
+      )}
+      onClick={() => setPage(value)}
+    >
+      {value}
     </Link>
   );
-}
-
-export default Pagination;
+};

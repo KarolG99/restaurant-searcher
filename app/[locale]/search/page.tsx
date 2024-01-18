@@ -16,8 +16,8 @@ import BackButton from "@/app/ui/BackButton";
 import RestaurantCard from "@/app/ui/RestaurantCard";
 import SearchFilters from "@/app/ui/SearchFilters";
 import { Restaurant } from "@/database.types";
-import Pagination from "@/app/ui/Pagination";
 import { getSearchRange } from "@/app/utils/getSearchRange";
+import PaginationComponent from "@/app/ui/Pagination";
 
 export const revalidate = revalidateTime;
 
@@ -146,7 +146,7 @@ export default async function Search({
           ))}
         </div>
 
-        <Pagination totalPages={totalPages} />
+        <PaginationComponent totalPages={totalPages} />
       </section>
     </article>
   );
