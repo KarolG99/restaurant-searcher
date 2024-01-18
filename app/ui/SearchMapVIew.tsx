@@ -1,7 +1,6 @@
 "use client";
 
 import { LocationV2, Price } from "@/database.types";
-import MapView from "./MapView";
 import { MapContainer, TileLayer } from "react-leaflet";
 import CloseIcon from "../icons/CloseIcon";
 
