@@ -1,6 +1,6 @@
 import supabase from "@/app/services/supabase";
 import { ParamsType, SearchParamsType } from "@/app/types";
-import SearchMapView from "@/app/ui/SearchMapView";
+import MapSearchView from "@/app/ui/MapSearchView";
 import { LocationV2 } from "@/database.types";
 
 type MapPageProps = {
@@ -43,7 +43,7 @@ export default async function MapPage({
     );
 
   return (
-    <SearchMapView
+    <MapSearchView
       cuisineParam={cuisineParam}
       dietParam={dietParam}
       priceParam={priceParam}

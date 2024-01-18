@@ -13,7 +13,7 @@ import { Routes } from "../config/routes";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-type SearchMapViewProps = {
+type MapSearchViewProps = {
   cuisineParam: string;
   dietParam: string;
   priceParam: string;
@@ -23,7 +23,7 @@ type SearchMapViewProps = {
   selectedLocation?: LocationV2;
 };
 
-const SearchMapView = ({
+const MapSearchView = ({
   cuisineParam,
   dietParam,
   priceParam,
@@ -31,7 +31,7 @@ const SearchMapView = ({
   locale,
   prices,
   selectedLocation,
-}: SearchMapViewProps) => {
+}: MapSearchViewProps) => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
 
@@ -78,4 +78,4 @@ const SearchMapView = ({
   );
 };
 
-export default SearchMapView;
+export default MapSearchView;
