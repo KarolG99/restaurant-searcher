@@ -22,6 +22,7 @@ type MapViewProps = {
   zoom: number;
   handleCloseMap: () => void;
   restaurantInfo: {
+    id: number;
     lat: number;
     long: number;
     name: string;
@@ -40,7 +41,7 @@ const MapView = ({
   handleCloseMap,
   restaurantInfo,
   isSearchMap,
-  prices
+  prices,
 }: MapViewProps) => {
   return (
     <MapContainer
@@ -58,18 +59,14 @@ const MapView = ({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {!isSearchMap ? (
-        restaurantInfo.map((restaurant, index) => {
-          return (
-            <MapMarker
-              key={`${restaurant.name}_${index}`}
-              restaurant={restaurant}
-            />
-          );
-        })
-      ) : (
-        <SearchedMapRestaurants prices={prices} />
-      )}
+      {restaurantInfo.map((restaurant, index) => {
+        return (
+          <MapMarker
+            key={`${restaurant.name}_${index}`}
+            restaurant={restaurant}
+          />
+        );
+      })}
 
       <button
         onClick={handleCloseMap}

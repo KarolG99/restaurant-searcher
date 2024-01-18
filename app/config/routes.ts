@@ -1,4 +1,5 @@
 export enum Routes {
   SEARCH = "/search",
-  RESTAURANT = "/restaurant"
+  RESTAURANT = "/restaurant",
+  MAP = "/map"
 }

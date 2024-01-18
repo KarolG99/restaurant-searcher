@@ -7,6 +7,7 @@ import { RestaurantReviews } from "@/database.types";
 
 type RestaurantMapViewProps = {
   restaurantInfo: {
+    id: number;
     lat: number;
     long: number;
     name: string;

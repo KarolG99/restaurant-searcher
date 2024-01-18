@@ -11,13 +11,13 @@ import { Routes } from "@/app/config/routes";
 import { getDictionary } from "@/app/dictionaries/getDictionary";
 import { getSearchResults } from "@/app/services/getSearchResults";
 import supabase from "@/app/services/supabase";
-import { ParamsType } from "@/app/types";
+import { ParamsType, SearchParamsType } from "@/app/types";
 import BackButton from "@/app/ui/BackButton";
 import RestaurantCard from "@/app/ui/RestaurantCard";
 import SearchFilters from "@/app/ui/SearchFilters";
 import { Restaurant } from "@/database.types";
-import { getSearchRange } from "@/app/utils/getSearchRange";
 import PaginationComponent from "@/app/ui/Pagination";
+import OpenMapButton from "@/app/ui/OpenMapButton";
 
 export const revalidate = revalidateTime;
 
@@ -57,26 +57,19 @@ export async function generateMetadata({
 }
 
 type SearchProps = {
-  searchParams?: {
-    location?: string;
-    cuisine?: string;
-    diet?: string;
-    price?: string;
-    meal?: string;
-    page?: string;
-  };
+  searchParams?: SearchParamsType;
 } & ParamsType;
 
 export default async function Search({
   params: { locale },
   searchParams,
 }: SearchProps) {
-  const locationParam = searchParams?.location || "";
-  const cuisineParam = searchParams?.cuisine || "";
-  const dietParam = searchParams?.diet || "";
-  const priceParam = searchParams?.price || "";
-  const mealParam = searchParams?.meal || "";
-  const pageParam = searchParams?.page || "1";
+  const locationParam = searchParams?.location ?? "";
+  const cuisineParam = searchParams?.cuisine ?? "";
+  const dietParam = searchParams?.diet ?? "";
+  const priceParam = searchParams?.price ?? "";
+  const mealParam = searchParams?.meal ?? "";
+  const pageParam = searchParams?.page ?? "1";
 
   const [
     locationsResponse,
@@ -148,6 +141,8 @@ export default async function Search({
 
         <PaginationComponent totalPages={totalPages} />
       </section>
+
+      <OpenMapButton locale={locale} />
     </article>
   );
 }

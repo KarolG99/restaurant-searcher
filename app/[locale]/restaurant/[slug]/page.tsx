@@ -169,6 +169,7 @@ export default async function Restaurant({
           {restaurant.lat && restaurant.long && (
             <RestaurantMapView
               restaurantInfo={{
+                id: restaurant.id,
                 lat: restaurant.lat,
                 long: restaurant.long,
                 name: restaurant.name ?? "",

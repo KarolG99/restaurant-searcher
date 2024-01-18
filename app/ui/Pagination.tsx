@@ -12,7 +12,10 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
 const PaginationComponent = ({ totalPages }: { totalPages: number }) => {
+  const pathname = usePathname();
   const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+
   const currentPage = Number(searchParams.get("page")) || 1;
 
   return (
@@ -23,7 +26,9 @@ const PaginationComponent = ({ totalPages }: { totalPages: number }) => {
         total={totalPages}
         initialPage={currentPage}
         className="gap-2"
-        renderItem={(props) => PaginationItem({ ...props, currentPage })}
+        renderItem={(props) =>
+          PaginationItem({ ...props, currentPage, params, pathname })
+        }
         variant="light"
         siblings={window.innerWidth <= 500 ? 0 : 1}
       />
@@ -43,14 +48,15 @@ const PaginationItem = ({
   setPage,
   className,
   currentPage,
-  total
-}: PaginationItemRenderProps & { currentPage: number }) => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
+  total,
+  params,
+  pathname,
+}: PaginationItemRenderProps & {
+  currentPage: number;
+  params: any;
+  pathname: string;
+}) => {
   const createPageURL = () => {
-    const params = new URLSearchParams(searchParams);
-
     if (value === PaginationItemType.NEXT) {
       params.set("page", (currentPage + 1).toString());
       return `${pathname}?${params.toString()}`;

@@ -191,6 +191,10 @@ export interface Database {
           min_long: number;
           max_lat: number;
           max_long: number;
+          cuisines: number | null;
+          diets: number | null;
+          prices: number | null;
+          meals: number | null;
         };
         Returns: {
           id: number;
