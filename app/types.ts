@@ -9,6 +9,15 @@ export type ParamsType = Readonly<{
   };
 }>;
 
+export type SearchParamsType = {
+  location?: string;
+  cuisine?: string;
+  diet?: string;
+  price?: string;
+  meal?: string;
+  page?: string;
+};
+
 export enum SearchParams {
   LOCATION = "location",
   CUISINE = "cuisine",

@@ -59,6 +59,18 @@ input[type="checkbox"].custom:checked + label {
   z-index: 1000;
 }
 
+.leaflet-popup-content-wrapper {
+  background-color: black !important;
+  color: #f5f5dc !important;
+  max-width: 300px;
+  a {
+    color: #f5f5dc !important;
+  }
+}
+.leaflet-popup-tip {
+  background-color: black !important;
+}
+
 /* SPLIDE STYLES */
 .splide {
   .splide__arrow--prev {

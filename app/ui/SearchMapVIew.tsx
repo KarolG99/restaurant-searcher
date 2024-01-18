@@ -1,56 +1,82 @@
 "use client";
 
-import { useState } from "react";
-import MapIcon from "../icons/MapIcon";
 import { LocationV2, Price } from "@/database.types";
-import { useSearchParams } from "next/navigation";
-import { SearchParams } from "../types";
 import MapView from "./MapView";
+import { MapContainer, TileLayer } from "react-leaflet";
+import CloseIcon from "../icons/CloseIcon";
+
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import SearchedMapRestaurants from "./SearchedMapRestaurants";
+import { Languages } from "../types";
+import { Routes } from "../config/routes";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 type SearchMapViewProps = {
-  locations: LocationV2[];
+  cuisineParam: string;
+  dietParam: string;
+  priceParam: string;
+  mealParam: string;
+  locale: Languages;
   prices: Price[];
+  selectedLocation?: LocationV2;
 };
 
-const SearchMapView = ({ locations, prices }: SearchMapViewProps) => {
-  const [isMapOpen, setIsMapOpen] = useState(false);
-
+const SearchMapVIew = ({
+  cuisineParam,
+  dietParam,
+  priceParam,
+  mealParam,
+  locale,
+  prices,
+  selectedLocation,
+}: SearchMapViewProps) => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
 
-  const locationParam = params.get(SearchParams.LOCATION) ?? null;
-  const selectedLocation =
-    locationParam &&
-    locations.find((location) => Number(locationParam) === location.id);
+  const centerLong = selectedLocation ? selectedLocation.long : 50.06;
+  const centerLat = selectedLocation ? selectedLocation.lat : 19.56;
+
+  const searchUrl = `/${locale}${Routes.SEARCH}?${params.toString()}`;
 
   return (
-    <>
-      {!isMapOpen && (
-        <button
-          onClick={() => setIsMapOpen(true)}
-          className="bg-black flex justify-center items-center text-background gap-[8px] px-[15px] py-[5px] rounded-full fixed bottom-[15px] left-[50%] translate-x-[-50%] z-10"
+    <div className="fixed bg-[#0000009a] top-0 left-0 w-full h-full z-[9]">
+      <div className="fixed z-10 bottom-0 left-0 w-full h-[100%] xl:max-w-[1280px] xl:left-[50%] xl:translate-x-[-50%]">
+        <MapContainer
+          center={[centerLong, centerLat]}
+          zoom={selectedLocation ? 12 : 8}
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "relative",
+          }}
         >
-          Open map <MapIcon fill="#F5F5DC" />
-        </button>
-      )}
+          <Link
+            href={searchUrl}
+            className="map-button bg-black absolute top-[10px] text-background text-m rounded-full right-[10px] w-[30px] h-[30px] flex items-center justify-center"
+          >
+            <CloseIcon fill="white" />
+          </Link>
 
-      {isMapOpen && (
-        <div className="fixed bg-[#0000009a] top-0 left-0 w-full h-full z-[9]">
-          <div className="fixed z-10 bottom-0 left-0 w-full h-[93%] xl:max-w-[1280px] xl:left-[50%] xl:translate-x-[-50%]">
-            <MapView
-              centerLat={selectedLocation ? selectedLocation.lat : 19.57}
-              centerLong={selectedLocation ? selectedLocation.long : 50.03}
-              zoom={selectedLocation ? 12 : 8}
-              handleCloseMap={() => setIsMapOpen(false)}
-              restaurantInfo={[]}
-              isSearchMap
-              prices={prices}
-            />
-          </div>
-        </div>
-      )}
-    </>
+          <SearchedMapRestaurants
+            cuisineParam={cuisineParam}
+            dietParam={dietParam}
+            priceParam={priceParam}
+            mealParam={mealParam}
+            locale={locale}
+            prices={prices}
+          />
+
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+        </MapContainer>
+      </div>
+    </div>
   );
 };
 
-export default SearchMapView;
+export default SearchMapVIew;

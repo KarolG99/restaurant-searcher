@@ -5,12 +5,26 @@ import supabase from "../services/supabase";
 import { useState } from "react";
 import MapMarker from "./MapMarker";
 import { Json, Price, RestaurantReviews } from "@/database.types";
+import { getMapSearchResults } from "../services/getMapSearchResults";
+import { Languages } from "../types";
 
 type SearchedMapRestaurantsProps = {
+  cuisineParam: string;
+  dietParam: string;
+  priceParam: string;
+  mealParam: string;
+  locale?: Languages;
   prices?: Price[];
 };
 
-const SearchedMapRestaurants = ({ prices }: SearchedMapRestaurantsProps) => {
+const SearchedMapRestaurants = ({
+  cuisineParam,
+  dietParam,
+  priceParam,
+  mealParam,
+  locale,
+  prices,
+}: SearchedMapRestaurantsProps) => {
   const map = useMap();
   const [isLoading, setIsLoading] = useState(false);
   const [restaurants, setRestaurants] = useState<
@@ -34,12 +48,16 @@ const SearchedMapRestaurants = ({ prices }: SearchedMapRestaurantsProps) => {
     const maxLat = bounds.getNorthEast().lng;
     setIsLoading(true);
     try {
-      const { data } = await supabase.rpc("restaurants_in_view", {
-        min_lat: minLat,
-        min_long: minLong,
-        max_lat: maxLat,
-        max_long: maxLong,
-      });
+      const { data } = await getMapSearchResults(
+        minLat,
+        minLong,
+        maxLat,
+        maxLong,
+        cuisineParam,
+        dietParam,
+        priceParam,
+        mealParam
+      );
       setRestaurants(data);
       setIsLoading(false);
     } catch (error) {
@@ -56,7 +74,7 @@ const SearchedMapRestaurants = ({ prices }: SearchedMapRestaurantsProps) => {
         {isLoading ? "Loading... " : "Search this area"}
       </button>
 
-      {restaurants.map((restaurant, index) => {
+      {restaurants?.map((restaurant, index) => {
         const { id, name, lat, long, reviews, mainImage, averageprice } =
           restaurant;
         const averagePriceId = averageprice?.[0];
@@ -77,6 +95,7 @@ const SearchedMapRestaurants = ({ prices }: SearchedMapRestaurantsProps) => {
           <MapMarker
             key={`${restaurant.name}_${index}`}
             restaurant={restaurantInfo}
+            locale={locale || Languages.EN}
           />
         );
       })}
