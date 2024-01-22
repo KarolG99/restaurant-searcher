@@ -5,6 +5,10 @@ export const metadata = {
     title: "BeeestRest | Search",
     description: "Search for the best restaurants.",
   },
+  map: {
+    title: "BeeestRest | Map search",
+    description: "Search for the best restaurants on map.",
+  },
 };
 export type MetadataDictionaryType = typeof metadata;
 
