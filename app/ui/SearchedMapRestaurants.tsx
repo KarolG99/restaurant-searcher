@@ -2,7 +2,7 @@
 
 import { useMap } from "react-leaflet";
 import supabase from "../services/supabase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MapMarker from "./MapMarker";
 import { Json, Price, RestaurantReviews } from "@/database.types";
 import { getMapSearchResults } from "../services/getMapSearchResults";
@@ -64,6 +64,10 @@ const SearchedMapRestaurants = ({
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    handleSearchArea();
+  }, [cuisineParam, dietParam, priceParam, mealParam]);
 
   return (
     <>

@@ -19,7 +19,7 @@ const LocationFilters = ({
 }: LocationFiltersProps) => {
   return locations && locations.length > 0 ? (
     <section>
-      <p className=" font-semibold ml-[2px] mb-[5px]">Location</p>
+      <p className=" font-semibold ml-[2px] mb-[5px] text-m">Location</p>
 
       <div className="flex gap-[13px] items-center filtersWrapper">
         <Filter

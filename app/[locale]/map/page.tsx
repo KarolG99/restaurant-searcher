@@ -48,8 +48,12 @@ export default async function MapPage({
       dietParam={dietParam}
       priceParam={priceParam}
       mealParam={mealParam}
-      locale={locale}
+      locations={locations}
+      cuisines={cuisines}
+      diets={diets}
       prices={prices}
+      meals={meals}
+      locale={locale}
       selectedLocation={selectedLocation}
     />
   );
