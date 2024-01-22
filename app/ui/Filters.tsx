@@ -20,6 +20,8 @@ type FiltersProps = {
   diets: Diet[];
   prices: Price[];
   meals: Meal[];
+  isMapView?: boolean;
+  handleCloseFilters?: () => void;
 };
 
 const Filters = ({
@@ -28,6 +30,8 @@ const Filters = ({
   diets,
   prices,
   meals,
+  isMapView,
+  handleCloseFilters
 }: FiltersProps) => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
@@ -48,13 +52,15 @@ const Filters = ({
 
   return (
     <article className="flex flex-col gap-[15px] pb-[20px]">
-      <LocationFilters
-        locations={locations}
-        setStateSearchParams={(value) =>
-          setStateSearchParams({ ...stateSearchParams, location: value })
-        }
-        locationParam={locationParam}
-      />
+      {!isMapView && (
+        <LocationFilters
+          locations={locations}
+          setStateSearchParams={(value) =>
+            setStateSearchParams({ ...stateSearchParams, location: value })
+          }
+          locationParam={locationParam}
+        />
+      )}
       <CuisineFilters
         cuisines={cuisines}
         setStateSearchParams={(value) =>
@@ -84,7 +90,7 @@ const Filters = ({
         mealParam={mealParam}
       />
 
-      <SubmitButton stateSearchParams={stateSearchParams} />
+      <SubmitButton stateSearchParams={stateSearchParams} isMapView={isMapView} handleCloseFilters={handleCloseFilters} />
     </article>
   );
 };

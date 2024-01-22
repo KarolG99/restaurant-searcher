@@ -52,7 +52,7 @@ const CuisineFilters = ({
 
   return cuisines && cuisines.length > 0 ? (
     <section>
-      <p className="font-semibold ml-[2px] mb-[5px]">
+      <p className="font-semibold ml-[2px] mb-[5px] text-m">
         Cuisine {selectedIdsCount && `(${selectedIdsCount})`}
       </p>
 

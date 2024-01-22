@@ -5,6 +5,10 @@ export const metadata = {
     title: "BeeestRest | Szukaj",
     description: "Szukaj najlepszych restauracji.",
   },
+  map: {
+    title: "BeeestRest | Map search",
+    description: "Search for the best restaurants on map.",
+  },
 };
 
 export const logoCommon = {

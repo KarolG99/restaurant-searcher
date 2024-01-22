@@ -9,7 +9,7 @@ export const getMapSearchResults = async (
   cuisineParam: string,
   dietParam: string,
   priceParam: string,
-  mealParam: string,
+  mealParam: string
 ) => {
   const cuisineFilter =
     cuisineParam.length > 0 ? cuisineParam.split(",").map(Number) : [];
@@ -20,9 +20,8 @@ export const getMapSearchResults = async (
   const mealFilter =
     mealParam.length > 0 ? mealParam.split(",").map(Number) : [];
 
-  const { data, error } = await supabase.rpc(
-    "restaurants_in_view",
-    {
+  const { data, error } = await supabase
+    .rpc("restaurants_in_view", {
       min_lat,
       min_long,
       max_lat,
@@ -31,8 +30,8 @@ export const getMapSearchResults = async (
       diets: dietFilter.length > 0 ? dietFilter : null,
       prices: priceFilter.length > 0 ? priceFilter : null,
       meals: mealFilter.length > 0 ? mealFilter : null,
-    }
-  );
+    })
+    .range(0, 100);
 
   return { data, error };
 };

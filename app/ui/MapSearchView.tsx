@@ -12,14 +12,21 @@ import { Languages } from "../types";
 import { Routes } from "../config/routes";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import FilterIcon from "../icons/FilterIcon";
+import { useState } from "react";
+import Filters from "./Filters";
 
 type MapSearchViewProps = {
   cuisineParam: string;
   dietParam: string;
   priceParam: string;
   mealParam: string;
-  locale: Languages;
+  locations: any[];
+  cuisines: any[];
+  diets: any[];
   prices: Price[];
+  meals: any[];
+  locale: Languages;
   selectedLocation?: LocationV2;
 };
 
@@ -28,10 +35,16 @@ const MapSearchView = ({
   dietParam,
   priceParam,
   mealParam,
-  locale,
+  locations,
+  cuisines,
+  diets,
   prices,
+  meals,
+  locale,
   selectedLocation,
 }: MapSearchViewProps) => {
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
 
@@ -51,7 +64,15 @@ const MapSearchView = ({
             height: "100%",
             position: "relative",
           }}
+          scrollWheelZoom={false}
         >
+          <button
+            onClick={() => setIsFiltersOpen((prev) => !prev)}
+            className="map-button absolute top-[10px] right-[50%] translate-x-[50%] flex gap-[5px] text-m justify-center items-center bg-black text-white font-bold px-[8px] py-[3px] rounded-md"
+          >
+            Filters <FilterIcon fill="white" />
+          </button>
+
           <Link
             href={searchUrl}
             className="map-button bg-black absolute top-[10px] text-background text-m rounded-full right-[10px] w-[30px] h-[30px] flex items-center justify-center"
@@ -67,6 +88,27 @@ const MapSearchView = ({
             locale={locale}
             prices={prices}
           />
+
+          {isFiltersOpen && (
+            <div className="map-button absolute top-0 left-0 w-full h-full bg-background p-[15px] overflow-y-scroll flex flex-col">
+              <button
+                onClick={() => setIsFiltersOpen(false)}
+                className="text-m font-bold mb-[20px] self-center underline"
+              >
+                Close filters
+              </button>
+
+              <Filters
+                locations={locations}
+                cuisines={cuisines}
+                diets={diets}
+                prices={prices}
+                meals={meals}
+                isMapView
+                handleCloseFilters={() => setIsFiltersOpen(false)}
+              />
+            </div>
+          )}
 
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

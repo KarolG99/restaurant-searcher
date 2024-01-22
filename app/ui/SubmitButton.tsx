@@ -13,9 +13,15 @@ type SubmitButtonProps = {
     price: string;
     meal: string;
   };
+  isMapView?: boolean;
+  handleCloseFilters?: () => void;
 };
 
-const SubmitButton = ({ stateSearchParams }: SubmitButtonProps) => {
+const SubmitButton = ({
+  stateSearchParams,
+  isMapView,
+  handleCloseFilters,
+}: SubmitButtonProps) => {
   const { location, cuisine, diet, price, meal } = stateSearchParams;
 
   const pathname = usePathname();
@@ -69,12 +75,17 @@ const SubmitButton = ({ stateSearchParams }: SubmitButtonProps) => {
 
   return (
     <button
-      className=" bg-black m-auto text-background px-[30px] py-[7px] text-center rounded-[20px] mt-[15px]"
-      onClick={() =>
-        replace(
-          `/${pathname.split("/")[1]}/${Routes.SEARCH}?${params.toString()}`
-        )
-      }
+      className=" bg-black m-auto text-background px-[30px] py-[7px] text-center rounded-[20px] mt-[15px] text-m"
+      onClick={() => {
+        if (isMapView) {
+          replace(`${pathname}?${params.toString()}`);
+          handleCloseFilters && handleCloseFilters();
+        } else {
+          replace(
+            `/${pathname.split("/")[1]}/${Routes.SEARCH}?${params.toString()}`
+          );
+        }
+      }}
     >
       Search
     </button>

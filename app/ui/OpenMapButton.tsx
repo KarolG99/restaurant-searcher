@@ -18,7 +18,7 @@ const OpenMapButton = ({ locale }: OpenMapButtonProps) => {
   return (
     <Link
       href={`/${locale}${Routes.MAP}?${params.toString()}`}
-      className="bg-black flex justify-center items-center text-background gap-[8px] px-[15px] py-[5px] rounded-full fixed bottom-[15px] left-[50%] translate-x-[-50%] z-10 border-[1px] border-background"
+      className="bg-black flex justify-center items-center text-background gap-[8px] px-[15px] py-[5px] rounded-full fixed bottom-[25px] left-[50%] translate-x-[-50%] z-10 border-[1px] border-background"
     >
       Open Map <MapIcon fill="#F5F5DC" />
     </Link>
