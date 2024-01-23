@@ -71,6 +71,16 @@ input[type="checkbox"].custom:checked + label {
   background-color: black !important;
 }
 
+.custom-marker-cluster {
+  background-color: black;
+  color: white;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 50%;
+}
+
 /* SPLIDE STYLES */
 .splide {
   .splide__arrow--prev {
