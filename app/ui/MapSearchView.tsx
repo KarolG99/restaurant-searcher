@@ -2,6 +2,9 @@
 
 import { LocationV2, Price } from "@/database.types";
 import { MapContainer, TileLayer } from "react-leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
+import { divIcon, point } from "leaflet";
+
 import CloseIcon from "../icons/CloseIcon";
 
 import "leaflet/dist/leaflet.css";
@@ -53,6 +56,14 @@ const MapSearchView = ({
 
   const searchUrl = `/${locale}${Routes.SEARCH}?${params.toString()}`;
 
+  const createCustomClusterIcon = (cluster: any) => {
+    return divIcon({
+      html: `<span>${cluster.getChildCount()}</span>`,
+      className: "custom-marker-cluster",
+      iconSize: point(33, 33, true),
+    });
+  };
+
   return (
     <div className="fixed bg-[#0000009a] top-0 left-0 w-full h-full z-[9]">
       <div className="fixed z-10 bottom-0 left-0 w-full h-[100%] xl:max-w-[1280px] xl:left-[50%] xl:translate-x-[-50%]">
@@ -64,6 +75,7 @@ const MapSearchView = ({
             height: "100%",
             position: "relative",
           }}
+          maxZoom={18}
           scrollWheelZoom={false}
         >
           <button
@@ -80,14 +92,30 @@ const MapSearchView = ({
             <CloseIcon fill="white" />
           </Link>
 
-          <SearchedMapRestaurants
-            cuisineParam={cuisineParam}
-            dietParam={dietParam}
-            priceParam={priceParam}
-            mealParam={mealParam}
-            locale={locale}
-            prices={prices}
-          />
+          <MarkerClusterGroup
+            chunkedLoading
+            iconCreateFunction={createCustomClusterIcon}
+            maxClusterRadius={120}
+            spiderfyOnMaxZoom={true}
+            polygonOptions={{
+              fillColor: "#ffffff",
+              color: "#000",
+              weight: 2,
+              opacity: 1,
+              fillOpacity: 0.8,
+            }}
+            showCoverageOnHover={true}
+            removeOutsideVisibleBounds={false}
+          >
+            <SearchedMapRestaurants
+              cuisineParam={cuisineParam}
+              dietParam={dietParam}
+              priceParam={priceParam}
+              mealParam={mealParam}
+              locale={locale}
+              prices={prices}
+            />
+          </MarkerClusterGroup>
 
           {isFiltersOpen && (
             <div className="map-button absolute top-0 left-0 w-full h-full bg-background p-[15px] overflow-y-scroll flex flex-col">

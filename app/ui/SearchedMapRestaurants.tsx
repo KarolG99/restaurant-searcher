@@ -99,7 +99,7 @@ const SearchedMapRestaurants = ({
           <MapMarker
             key={`${restaurant.name}_${index}`}
             restaurant={restaurantInfo}
-            locale={locale || Languages.EN}
+            locale={locale ?? Languages.EN}
           />
         );
       })}
