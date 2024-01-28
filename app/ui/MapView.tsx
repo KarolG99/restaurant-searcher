@@ -1,8 +1,6 @@
 "use client";
 
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { icon } from "leaflet";
-import Image from "next/image";
+import { MapContainer, TileLayer } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
@@ -10,11 +8,8 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 
 import { Price, RestaurantReviews } from "@/database.types";
 
-import MarkerImg from "@/public/marker.png";
-
 import CloseIcon from "../icons/CloseIcon";
 import MapMarker from "./MapMarker";
-import SearchedMapRestaurants from "./SearchedMapRestaurants";
 
 type MapViewProps = {
   centerLat: number;

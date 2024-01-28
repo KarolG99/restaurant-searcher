@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 import supabase from "@/app/services/supabase";
 import { Languages } from "@/app/types";
@@ -14,7 +15,13 @@ import {
   revalidateTime,
 } from "@/app/config/base";
 import { getDictionary } from "@/app/dictionaries/getDictionary";
-import RestaurantMapView from "@/app/ui/RestaurantMapView";
+
+const DynamicRestaurantMapView = dynamic(
+  () => import("@/app/ui/RestaurantMapView"),
+  {
+    ssr: false,
+  }
+);
 
 export const revalidate = revalidateTime;
 
@@ -167,7 +174,7 @@ export default async function Restaurant({
           </p>
 
           {restaurant.lat && restaurant.long && (
-            <RestaurantMapView
+            <DynamicRestaurantMapView
               restaurantInfo={{
                 id: restaurant.id,
                 lat: restaurant.lat,
@@ -175,7 +182,7 @@ export default async function Restaurant({
                 name: restaurant.name ?? "",
                 averagePriceSymbol: averagePrice.symbol,
                 reviews: restaurant.reviews as RestaurantReviews,
-                mainImage: restaurant.mainImage || "",
+                mainImage: restaurant.mainImage ?? "",
               }}
             />
           )}
