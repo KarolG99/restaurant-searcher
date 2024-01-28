@@ -30,7 +30,7 @@ const PaginationComponent = ({ totalPages }: { totalPages: number }) => {
           PaginationItem({ ...props, currentPage, params, pathname })
         }
         variant="light"
-        siblings={window.innerWidth <= 500 ? 0 : 1}
+        siblings={typeof window !== "undefined" && window.innerWidth <= 500 ? 0 : 1}
       />
     </div>
   );

@@ -14,10 +14,12 @@ const BackButton = ({ href, text, goBack, locale }: BackButtonProps) => {
   return goBack ? (
     <button
       onClick={() => {
-        if (window.history.length <= 1) {
-          window.location.href = `/${locale}`;
-        } else {
-          window.history.back();
+        if (typeof window !== "undefined") {
+          if (window.history.length <= 1) {
+            window.location.href = `/${locale}`;
+          } else {
+            window.history.back();
+          }
         }
       }}
       className="flex items-center gap-[8px] font-medium mb-[20px]"
