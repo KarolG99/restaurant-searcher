@@ -12,21 +12,25 @@ import { Languages } from "../types";
 
 type RestaurantsCarouselProps = {
   restaurants: Restaurant[] | null;
-  location: LocationV2 | null;
   prices: Price[] | null;
   cuisines: Cuisine[] | null;
   diets: Diet[] | null;
   locale: Languages;
+  location?: LocationV2 | null;
+  title?: string;
 };
 
 const RestaurantsCarousel = ({
   restaurants,
-  location,
   prices,
   cuisines,
   diets,
   locale,
+  location,
+  title = "",
 }: RestaurantsCarouselProps) => {
+  const showLocation = !!location;
+
   const splideOptions = {
     perPage: 3,
     gap: "15px",
@@ -42,7 +46,9 @@ const RestaurantsCarousel = ({
 
   return (
     <article className=" mt-[60px] pb-[15px]">
-      <h2 className=" text-l font-bold">Restaurants in {location?.name}</h2>
+      <h2 className=" text-l font-bold">
+        {showLocation ? `Restaurants in ${location?.name}` : title}
+      </h2>
 
       <Splide
         aria-label={`Restaurants in ${location?.name}`}

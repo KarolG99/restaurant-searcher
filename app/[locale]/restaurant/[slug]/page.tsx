@@ -22,6 +22,12 @@ const DynamicRestaurantMapView = dynamic(
     ssr: false,
   }
 );
+const DynamicClientSideLogic = dynamic(
+  () => import("@/app/ui/ClientSideRestaurantLogic"),
+  {
+    ssr: false,
+  }
+);
 
 export const revalidate = revalidateTime;
 
@@ -275,6 +281,8 @@ export default async function Restaurant({
           </section>
         )}
       </article>
+
+      <DynamicClientSideLogic productId={restaurant.id} />
     </>
   );
 }

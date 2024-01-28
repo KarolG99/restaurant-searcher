@@ -16,6 +16,7 @@ import {
   metadataUrl,
   revalidateTime,
 } from "../config/base";
+import LastViewedSection from "../ui/LastViewedSection";
 
 export const revalidate = revalidateTime;
 
@@ -115,6 +116,13 @@ export default async function Home({ params: { locale } }: ParamsType) {
       <RestaurantsCarousel
         restaurants={restaurantsLocationId2}
         location={locations.filter((location) => location.id === 2)?.[0]}
+        prices={prices}
+        cuisines={cuisines}
+        diets={diets}
+        locale={locale}
+      />
+
+      <LastViewedSection
         prices={prices}
         cuisines={cuisines}
         diets={diets}
