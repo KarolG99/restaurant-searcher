@@ -32,16 +32,18 @@ const LastViewedSection = ({
   }, []);
 
   return (
-    <div className=" min-h-[293px]">
-      <RestaurantsCarousel
-        restaurants={lastViewedRestaurants}
-        prices={prices}
-        cuisines={cuisines}
-        diets={diets}
-        locale={locale}
-        title="Last viewed"
-      />
-    </div>
+    lastViewedRestaurants.length > 0 && (
+      <div className=" min-h-[293px]">
+        <RestaurantsCarousel
+          restaurants={lastViewedRestaurants}
+          prices={prices}
+          cuisines={cuisines}
+          diets={diets}
+          locale={locale}
+          title="Last viewed"
+        />
+      </div>
+    )
   );
 };
 
