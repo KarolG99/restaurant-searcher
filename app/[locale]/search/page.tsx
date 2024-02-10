@@ -104,7 +104,7 @@ export default async function Search({
     meals
   );
 
-  const resultsCount = count ?? restaurants[0]?.count ?? 0;
+  const resultsCount = count ?? 0;
   const totalPages = Math.ceil(resultsCount / resultsPerPage);
 
   return (

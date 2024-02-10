@@ -48,7 +48,7 @@ export const getSearchResults = async (
       .range(from, to);
     return { restaurants, error, count };
   } else {
-    let query = supabase.from("restaurants").select("*", { count: "exact" });
+    let query = supabase.from("restaurants").select("*");
 
     if (cuisineFilter.length > 0) {
       query = query.overlaps("cuisine", cuisineFilter);
@@ -63,8 +63,9 @@ export const getSearchResults = async (
       query = query.overlaps("meal", mealFilter);
     }
 
-    const { data: restaurants, error, count } = await query.range(from, to);
+    const restaurantsCount = await supabase.from("restaurants").select("*", { count: "exact", head: true });
+    const { data: restaurants, error } = await query.range(from, to);
 
-    return { restaurants, error, count };
+    return { restaurants, error, count: restaurantsCount.count };
   }
 };
