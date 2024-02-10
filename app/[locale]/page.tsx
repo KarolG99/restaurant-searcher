@@ -81,12 +81,12 @@ export default async function Home({ params: { locale } }: ParamsType) {
     .from("restaurants")
     .select("*")
     .eq("locationId", 1)
-    .range(0, 5);
+    .range(0, 4);
   const { data: restaurantsLocationId2 } = await supabase
     .from("restaurants")
     .select("*")
     .eq("locationId", 2)
-    .range(0, 5);
+    .range(0, 4);
 
   return (
     <>

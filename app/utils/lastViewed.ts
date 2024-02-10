@@ -14,6 +14,7 @@ export const saveLastViewed = (productId: number) => {
   if (lastViewed.length >= 10) {
     lastViewed.pop();
   }
+
   localStorage.setItem(
     LocalStorageKeys.LAST_VIEWED,
     JSON.stringify(lastViewed)
@@ -31,7 +32,7 @@ export const getLastViewed = async () => {
       .select("*")
       .in("id", lastViewed);
 
-    return data;
+    return lastViewed.map((id) => data?.find((restaurant) => restaurant.id === id));
   }
   return null;
 };
