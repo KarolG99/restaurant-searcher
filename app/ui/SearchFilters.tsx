@@ -38,6 +38,7 @@ const SearchFilters = ({
           diets={diets}
           prices={prices}
           meals={meals}
+          handleCloseFilters={() => setShowFilters(false)}
         />
       )}
     </div>

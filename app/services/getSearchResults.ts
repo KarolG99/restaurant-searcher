@@ -49,23 +49,28 @@ export const getSearchResults = async (
     return { restaurants, error, count };
   } else {
     let query = supabase.from("restaurants").select("*");
+    let restaurantsCount = supabase.from("restaurants").select("*", { count: "exact", head: true });
 
     if (cuisineFilter.length > 0) {
       query = query.overlaps("cuisine", cuisineFilter);
+      restaurantsCount = restaurantsCount.overlaps("cuisine", cuisineFilter);
     }
     if (dietFilter.length > 0) {
       query = query.overlaps("diet", dietFilter);
+      restaurantsCount = restaurantsCount.overlaps("diet", dietFilter);
     }
     if (priceFilter.length > 0) {
       query = query.overlaps("averagePrice", priceFilter);
+      restaurantsCount = restaurantsCount.overlaps("averagePrice", priceFilter);
     }
     if (mealFilter.length > 0) {
       query = query.overlaps("meal", mealFilter);
+      restaurantsCount = restaurantsCount.overlaps("meal", mealFilter);
     }
 
-    const restaurantsCount = await supabase.from("restaurants").select("*", { count: "exact", head: true });
+    const { count } = await restaurantsCount;
     const { data: restaurants, error } = await query.range(from, to);
 
-    return { restaurants, error, count: restaurantsCount.count };
+    return { restaurants, error, count };
   }
 };
