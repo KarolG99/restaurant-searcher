@@ -84,6 +84,7 @@ const SubmitButton = ({
           replace(
             `/${pathname.split("/")[1]}/${Routes.SEARCH}?${params.toString()}`
           );
+          handleCloseFilters && handleCloseFilters();
         }
       }}
     >
