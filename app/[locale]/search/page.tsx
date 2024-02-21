@@ -119,6 +119,10 @@ export default async function Search({
         <h2 className="text-l font-bold">Search results ({resultsCount})</h2>
 
         <div className="flex flex-wrap gap-[10px]">
+          {resultsCount === 0 && restaurants.length === 0 ? (
+            <p className="mt-[20px]">No results found for your search criteria 🫣</p>
+          ) : null}
+
           {restaurants?.map((restaurant: Restaurant, index: number) => (
             <div
               key={`${restaurant.id}_${index}`}

@@ -7,6 +7,8 @@ import MapMarker from "./MapMarker";
 import { Json, Price, RestaurantReviews } from "@/database.types";
 import { getMapSearchResults } from "../services/getMapSearchResults";
 import { Languages } from "../types";
+import Spinner from "./Spinner";
+import clsx from "clsx";
 
 type SearchedMapRestaurantsProps = {
   cuisineParam: string;
@@ -73,9 +75,15 @@ const SearchedMapRestaurants = ({
     <>
       <button
         onClick={() => handleSearchArea()}
-        className="map-button absolute bottom-[20px] left-[50%] translate-x-[-50%] bg-black text-background text-m px-[15px] py-[6px] rounded-lg"
+        className={clsx(
+          "map-button absolute bottom-[20px] left-[50%] translate-x-[-50%] bg-black text-background text-m px-[15px] py-[6px] rounded-lg",
+          {
+            "px-[25px]": isLoading,
+          }
+        )}
+        disabled={isLoading}
       >
-        {isLoading ? "Loading... " : "Search this area"}
+        {isLoading ? <Spinner /> : "Search this area"}
       </button>
 
       {restaurants?.map((restaurant, index) => {
