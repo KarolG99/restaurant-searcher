@@ -77,6 +77,7 @@ const SubmitButton = ({
     <button
       className=" bg-black m-auto text-background px-[30px] py-[7px] text-center rounded-[20px] mt-[15px] text-m"
       onClick={() => {
+        params.set(SearchParams.PAGE, "1");
         if (isMapView) {
           replace(`${pathname}?${params.toString()}`);
           handleCloseFilters && handleCloseFilters();
