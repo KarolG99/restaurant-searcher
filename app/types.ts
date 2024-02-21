@@ -24,4 +24,5 @@ export enum SearchParams {
   DIET = "diet",
   PRICE = "price",
   MEAL = "meal",
+  PAGE = "page",
 }

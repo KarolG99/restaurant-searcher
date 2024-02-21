@@ -97,11 +97,7 @@ export default async function Search({
     priceParam,
     mealParam,
     pageParam,
-    locations,
-    cuisines,
-    diets,
-    prices,
-    meals
+    locations
   );
 
   const resultsCount = count ?? 0;

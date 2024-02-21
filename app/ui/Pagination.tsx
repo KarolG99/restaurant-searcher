@@ -25,6 +25,7 @@ const PaginationComponent = ({ totalPages }: { totalPages: number }) => {
         showControls
         total={totalPages}
         initialPage={currentPage}
+        page={currentPage}
         className="gap-2"
         renderItem={(props) =>
           PaginationItem({ ...props, currentPage, params, pathname })
