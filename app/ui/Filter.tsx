@@ -32,7 +32,7 @@ const Filter = ({
       />
       <label
         htmlFor={id.toString()}
-        className=" text-m border border-black px-[11px] py-[5px] rounded-[20px] cursor-pointer ml-[-12px]"
+        className=" text-m border border-black px-[11px] py-[5px] rounded-[20px] cursor-pointer ml-[-12px] whitespace-nowrap"
       >
         {name}
       </label>
