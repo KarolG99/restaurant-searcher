@@ -1,4 +1,4 @@
-export const revalidateTime = 21600;
+export const revalidateTime = 10800;
 
 export const metadataSiteName = "beeestrest.vercel.app";
 export const metadataUrl = "https://beeestrest.vercel.app";
