@@ -63,9 +63,10 @@ const RestaurantCard = ({
       <section className=" w-full h-auto my-[10px] flex-col">
         <div className="w-full h-[150px] rounded-t-[10px] relative">
           <Image
-            src={restaurant.mainImage || RestaurantPlaceholder}
+            src={restaurant.mainImage ?? RestaurantPlaceholder}
             alt={`Main image of ${restaurant.name} restaurant`}
             fill
+            sizes="100%"
             className="rounded-[10px]"
             style={{
               objectFit: "cover",
@@ -74,10 +75,10 @@ const RestaurantCard = ({
         </div>
 
         <div className="px-[5px] py-[5px]">
-          <h3 className=" font-bold line-clamp-2">{restaurant.name}</h3>
+          <h3 className=" font-bold line-clamp-2 notranslate">{restaurant.name}</h3>
 
           <p className=" flex justify-between">
-            <span className=" flex items-center gap-[2px]">
+            <span className=" flex items-center gap-[2px] notranslate">
               {typeof reviews === "object" && reviews !== null ? (
                 <>
                   {reviews.average} <StarIconFilled width="17" height="14" /> |{" "}
@@ -91,10 +92,10 @@ const RestaurantCard = ({
             <span className=" font-medium">{averagePrice?.symbol}</span>
           </p>
 
-          <p className=" text-s mb-[2px]">{restaurant.address}</p>
+          <p className=" text-s mb-[2px] notranslate">{restaurant.address}</p>
 
           {distanceInKm && (
-            <p className=" text-s mb-[2px]">
+            <p className=" text-s mb-[2px] notranslate">
               <span className="font-bold">≈{distanceInKm} km</span> from
               downtown
             </p>
